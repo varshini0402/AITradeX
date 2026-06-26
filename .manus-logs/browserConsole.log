@@ -1,0 +1,164 @@
+[2026-06-26T16:07:06.614Z] {"timestamp":1782490024607,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:07:06.614Z] {"timestamp":1782490024618,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:07:06.614Z] {"timestamp":1782490025544,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:09:05.122Z] {"timestamp":1782490143120,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:09:05.122Z] {"timestamp":1782490143136,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:09:05.122Z] {"timestamp":1782490143153,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:09:05.127Z] {"timestamp":1782490143120,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:09:05.127Z] {"timestamp":1782490143136,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:09:05.127Z] {"timestamp":1782490143153,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:09:07.196Z] {"timestamp":1782490145189,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:09:07.196Z] {"timestamp":1782490145202,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:09:07.196Z] {"timestamp":1782490145210,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:09:38.066Z] {"timestamp":1782490176059,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:09:38.066Z] {"timestamp":1782490176067,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:09:38.066Z] {"timestamp":1782490176089,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:09:54.063Z] {"timestamp":1782490192057,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:09:54.063Z] {"timestamp":1782490192067,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:09:54.063Z] {"timestamp":1782490192087,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:10:07.053Z] {"timestamp":1782490205048,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:10:07.053Z] {"timestamp":1782490205065,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:10:07.053Z] {"timestamp":1782490205094,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:10:11.640Z] {"timestamp":1782490209636,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:10:11.640Z] {"timestamp":1782490209646,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:10:11.640Z] {"timestamp":1782490209663,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:10:16.349Z] {"timestamp":1782490214344,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:10:16.349Z] {"timestamp":1782490214350,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:10:16.349Z] {"timestamp":1782490214366,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:10:23.906Z] {"timestamp":1782490221901,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:10:23.906Z] {"timestamp":1782490221911,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:10:23.906Z] {"timestamp":1782490221926,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:16:06.533Z] {"timestamp":1782490564525,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:16:06.533Z] {"timestamp":1782490564575,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:16:06.533Z] {"timestamp":1782490564625,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:24:40.278Z] {"timestamp":1782491078273,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:24:40.278Z] {"timestamp":1782491078287,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:24:40.278Z] {"timestamp":1782491078349,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:24:56.351Z] {"timestamp":1782491094230,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:24:56.351Z] {"timestamp":1782491094249,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:24:56.351Z] {"timestamp":1782491094296,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:25:34.689Z] {"timestamp":1782491132682,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:25:34.689Z] {"timestamp":1782491132705,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:25:34.689Z] {"timestamp":1782491132726,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:25:38.369Z] {"timestamp":1782491136363,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:25:38.369Z] {"timestamp":1782491136371,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:25:38.369Z] {"timestamp":1782491136398,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:25:41.518Z] {"timestamp":1782491139513,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:25:41.518Z] {"timestamp":1782491139520,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:25:41.518Z] {"timestamp":1782491139536,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:25:45.926Z] {"timestamp":1782491143922,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:25:45.926Z] {"timestamp":1782491143969,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:25:45.926Z] {"timestamp":1782491143977,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:25:49.294Z] {"timestamp":1782491147286,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:25:49.294Z] {"timestamp":1782491147322,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:25:49.294Z] {"timestamp":1782491147339,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:25:54.289Z] {"timestamp":1782491152282,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:25:54.289Z] {"timestamp":1782491152312,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:25:54.289Z] {"timestamp":1782491152336,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:27:31.662Z] {"timestamp":1782491249658,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:27:31.662Z] {"timestamp":1782491249667,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:27:31.662Z] {"timestamp":1782491249722,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:27:39.761Z] {"timestamp":1782491257755,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:27:39.761Z] {"timestamp":1782491257793,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:27:39.761Z] {"timestamp":1782491257798,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:30:13.930Z] {"timestamp":1782491413549,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:30:13.930Z] {"timestamp":1782491413549,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:34:31.856Z] {"timestamp":1782491670837,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:34:31.857Z] {"timestamp":1782491670837,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:36:17.011Z] {"timestamp":1782491759631,"level":"ERROR","args":["[vite]","Failed to reload /src/pages/IngestShipment.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)"],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.error (http://localhost:3000/@vite/client:809:26)\n    at HMRClient.warnFailedUpdate (http://localhost:3000/@vite/client:181:15)\n    at HMRClient.fetchUpdate (http://localhost:3000/@vite/client:212:10)\n    at async Promise.all (index 0)\n    at async HMRClient.queueUpdate (http://localhost:3000/@vite/client:196:5)\n    at async Promise.all (index 0)\n    at async handleMessage (http://localhost:3000/@vite/client:838:4)"}
+[2026-06-26T16:36:17.011Z] {"timestamp":1782491759659,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:36:17.011Z] {"timestamp":1782491759659,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:36:17.011Z] {"timestamp":1782491763783,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:36:17.012Z] {"timestamp":1782491763783,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:36:17.012Z] {"timestamp":1782491764609,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:36:17.012Z] {"timestamp":1782491764609,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:36:17.012Z] {"timestamp":1782491766940,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:36:17.012Z] {"timestamp":1782491766940,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:36:17.012Z] {"timestamp":1782491772811,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:36:17.012Z] {"timestamp":1782491772811,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:36:17.012Z] {"timestamp":1782491775287,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:36:17.012Z] {"timestamp":1782491775287,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:36:35.790Z] {"timestamp":1782491794674,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:36:35.790Z] {"timestamp":1782491794675,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:01.958Z] {"timestamp":1782491819978,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:01.958Z] {"timestamp":1782491819978,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:01.958Z] {"timestamp":1782491821723,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:01.958Z] {"timestamp":1782491821723,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:05.955Z] {"timestamp":1782491824656,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:05.955Z] {"timestamp":1782491824656,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:07.955Z] {"timestamp":1782491826043,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:07.955Z] {"timestamp":1782491826043,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:09.954Z] {"timestamp":1782491828268,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:09.954Z] {"timestamp":1782491828268,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:11.958Z] {"timestamp":1782491831686,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:11.958Z] {"timestamp":1782491831686,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:17.959Z] {"timestamp":1782491837447,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:17.959Z] {"timestamp":1782491837447,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:21.953Z] {"timestamp":1782491840095,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:21.953Z] {"timestamp":1782491840095,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:23.952Z] {"timestamp":1782491842868,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:23.952Z] {"timestamp":1782491842868,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:27.958Z] {"timestamp":1782491845975,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:27.958Z] {"timestamp":1782491845975,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:43.966Z] {"timestamp":1782491862029,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:43.966Z] {"timestamp":1782491862029,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:43.966Z] {"timestamp":1782491863276,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:37:43.966Z] {"timestamp":1782491863276,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:37:51.793Z] {"timestamp":1782491869787,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:37:51.793Z] {"timestamp":1782491869795,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:37:51.793Z] {"timestamp":1782491869862,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:40:00.731Z] {"timestamp":1782491999942,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:40:00.731Z] {"timestamp":1782491999943,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:41:39.988Z] {"timestamp":1782492099364,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:41:39.988Z] {"timestamp":1782492099364,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:43:16.089Z] {"timestamp":1782492195559,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:43:16.089Z] {"timestamp":1782492195559,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:47:25.794Z] {"timestamp":1782492443969,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:47:25.794Z] {"timestamp":1782492443970,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:47:37.791Z] {"timestamp":1782492456131,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:47:37.791Z] {"timestamp":1782492456132,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:49:02.671Z] {"timestamp":1782492540667,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:49:02.671Z] {"timestamp":1782492540684,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:49:02.671Z] {"timestamp":1782492540749,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:49:40.953Z] {"timestamp":1782492579050,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:49:40.953Z] {"timestamp":1782492579050,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:49:59.599Z] {"timestamp":1782492597593,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:49:59.599Z] {"timestamp":1782492597608,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:49:59.599Z] {"timestamp":1782492597646,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:50:55.595Z] {"timestamp":1782492655248,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:50:55.595Z] {"timestamp":1782492655248,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:51:05.949Z] {"timestamp":1782492665542,"level":"ERROR","args":["[vite]","Failed to reload /src/pages/IngestShipment.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)"],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.error (http://localhost:3000/@vite/client:809:26)\n    at HMRClient.warnFailedUpdate (http://localhost:3000/@vite/client:181:15)\n    at HMRClient.fetchUpdate (http://localhost:3000/@vite/client:212:10)\n    at async Promise.all (index 0)\n    at async HMRClient.queueUpdate (http://localhost:3000/@vite/client:196:5)\n    at async Promise.all (index 0)\n    at async handleMessage (http://localhost:3000/@vite/client:838:4)"}
+[2026-06-26T16:51:05.949Z] {"timestamp":1782492665545,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:51:05.949Z] {"timestamp":1782492665545,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:51:07.953Z] {"timestamp":1782492667401,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:51:07.953Z] {"timestamp":1782492667401,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:51:11.951Z] {"timestamp":1782492670263,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:51:11.951Z] {"timestamp":1782492670263,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:51:59.005Z] {"timestamp":1782492716997,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:51:59.005Z] {"timestamp":1782492717033,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:51:59.005Z] {"timestamp":1782492717044,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:52:17.425Z] {"timestamp":1782492735420,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-06-26T16:52:17.425Z] {"timestamp":1782492735429,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-06-26T16:52:17.425Z] {"timestamp":1782492735474,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-06-26T16:52:47.423Z] {"timestamp":1782492766138,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:52:47.423Z] {"timestamp":1782492766138,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:52:55.425Z] {"timestamp":1782492775147,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:52:55.425Z] {"timestamp":1782492775147,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:53:23.949Z] {"timestamp":1782492802374,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:53:23.949Z] {"timestamp":1782492802374,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:53:23.949Z] {"timestamp":1782492802958,"level":"ERROR","args":["%o\n\n%s\n\n%s\n",{"type":"Error","message":"Sparkles is not defined","stack":"ReferenceError: Sparkles is not defined\n    at IngestShipment (http://localhost:3000/src/pages/IngestShipment.tsx?t=1782492802329:348:9)\n    at Object.react_stack_bottom_frame (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:18509:20)\n    at renderWithHooks (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:5654:24)\n    at updateFunctionComponent (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:7475:21)\n    at beginWork (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:8525:20)\n    at runWithFiberInDEV (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:997:72)\n    at performUnitOfWork (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:12561:98)\n    at workLoopSync (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:12424:43)\n    at renderRootSync (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:12408:13)\n    at performWorkOnRoot (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:11827:37)"},"The above error occurred in the <IngestShipment> component.","React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary."],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at defaultOnCaughtError (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:7001:19)\n    at logCaughtError (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:7033:11)\n    at runWithFiberInDEV (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:997:72)\n    at update.callback (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:7066:13)\n    at callCallback (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:5491:18)\n    at commitCallbacks (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:5503:13)\n    at runWithFiberInDEV (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:997:72)\n    at commitClassCallbacks (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:9490:13)\n    at commitLayoutEffectOnFiber (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:9958:27)"}
+[2026-06-26T16:53:25.953Z] {"timestamp":1782492805561,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:53:25.953Z] {"timestamp":1782492805561,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:53:27.951Z] {"timestamp":1782492805959,"level":"ERROR","args":["%o\n\n%s\n\n%s\n",{"type":"Error","message":"Sparkles is not defined","stack":"ReferenceError: Sparkles is not defined\n    at IngestShipment (http://localhost:3000/src/pages/IngestShipment.tsx?t=1782492805522:353:38)\n    at Object.react_stack_bottom_frame (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:18509:20)\n    at renderWithHooks (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:5654:24)\n    at updateFunctionComponent (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:7475:21)\n    at beginWork (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:8525:20)\n    at runWithFiberInDEV (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:997:72)\n    at performUnitOfWork (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:12561:98)\n    at workLoopSync (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:12424:43)\n    at renderRootSync (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:12408:13)\n    at performWorkOnRoot (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:11827:37)"},"The above error occurred in the <IngestShipment> component.","React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary."],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at defaultOnCaughtError (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:7001:19)\n    at logCaughtError (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:7033:11)\n    at runWithFiberInDEV (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:997:72)\n    at update.callback (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:7066:13)\n    at callCallback (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:5491:18)\n    at commitCallbacks (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:5503:13)\n    at runWithFiberInDEV (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:997:72)\n    at commitClassCallbacks (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:9490:13)\n    at commitLayoutEffectOnFiber (http://localhost:3000/@fs/Users/yuxuanchai/AITradeX/node_modules/.vite/deps/react-dom_client.js?v=6f3727cc:9958:27)"}
+[2026-06-26T16:53:34.067Z] {"timestamp":1782492813119,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:53:34.068Z] {"timestamp":1782492813119,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:55:37.948Z] {"timestamp":1782492937767,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:55:37.948Z] {"timestamp":1782492937767,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:55:41.950Z] {"timestamp":1782492941153,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:55:41.950Z] {"timestamp":1782492941153,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:55:41.950Z] {"timestamp":1782492941762,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:55:41.950Z] {"timestamp":1782492941762,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:55:41.950Z] {"timestamp":1782492941849,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:55:41.950Z] {"timestamp":1782492941849,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-06-26T16:55:43.635Z] {"timestamp":1782492942049,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/IngestShipment.tsx"],"stack":null}
+[2026-06-26T16:55:43.635Z] {"timestamp":1782492942049,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
