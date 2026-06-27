@@ -9,6 +9,7 @@ import Chatbox from "./components/Chatbox";
 import IngestShipment from "./pages/IngestShipment";
 import Dashboard from "./pages/Dashboard";
 import ComplianceWorkflows from "./pages/ComplianceWorkflows";
+import ComplianceWorkflowsDetail from "./pages/ComplianceWorkflowsDetail";
 import Recommendations from "./pages/Recommendations";
 import AuditTrail from "./pages/AuditTrail";
 import QA from "./pages/QA";
@@ -22,6 +23,8 @@ function Router() {
       <Route path="/ingest" component={IngestShipment} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/compliance" component={ComplianceWorkflows} />
+      {/* <Route path="/compliance-detail" component={ComplianceWorkflowsDetail} /> */}
+      <Route path="/compliance-detail/:id" component={ComplianceWorkflowsDetail} />
       <Route path="/recommendations" component={Recommendations} />
       <Route path="/audit" component={AuditTrail} />
       <Route path="/qa" component={QA} />

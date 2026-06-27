@@ -1,8 +1,28 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLocation } from "wouter";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+/* ---------------- DATA ---------------- */
 
 const complianceData = [
   { month: "Jan", approved: 120, pending: 25, rejected: 5 },
@@ -13,143 +33,278 @@ const complianceData = [
   { month: "Jun", approved: 160, pending: 8, rejected: 2 },
 ];
 
-const shipmentDetails = [
-  { id: "INV-MY-88291", product: "Shipment Analysis: INV-MY-88291", compliance: "93.7%", duty: "RM 60,500", items: "RM 1,250", status: "Approved" },
-  { id: "INV-MY-88290", product: "Industrial Equipment Assembly", compliance: "87.2%", duty: "RM 45,200", items: "RM 890", status: "Approved" },
-  { id: "INV-MY-88289", product: "Electronic Components Batch", compliance: "91.5%", duty: "RM 52,100", items: "RM 1,050", status: "Approved" },
-  { id: "INV-MY-88288", product: "Chemical Compounds Shipment", compliance: "85.3%", duty: "RM 38,900", items: "RM 750", status: "Pending" },
+const shipments = [
+  {
+    id: "INV-MY-88291",
+    description: "Electronic Components Batch",
+    compliance: 93.7,
+    value: 60500,
+    duty: 1250,
+    status: "Approved",
+  },
+  {
+    id: "INV-MY-88290",
+    description: "Industrial Equipment Assembly",
+    compliance: 87.2,
+    value: 45200,
+    duty: 890,
+    status: "Approved",
+  },
+  {
+    id: "INV-MY-88289",
+    description: "PCB & Sensors Shipment",
+    compliance: 91.5,
+    value: 52100,
+    duty: 1050,
+    status: "Approved",
+  },
+  {
+    id: "INV-MY-88288",
+    description: "Chemical Compounds Shipment",
+    compliance: 85.3,
+    value: 38900,
+    duty: 750,
+    status: "Pending",
+  },
 ];
 
+/* ---------------- HELPERS ---------------- */
+
+function getStatusColor(status: string) {
+  return status === "Approved"
+    ? "bg-green-100 text-green-700"
+    : "bg-yellow-100 text-yellow-700";
+}
+
+/* ---------------- MAIN ---------------- */
+
 export default function ComplianceWorkflows() {
+  const [, setLocation] = useLocation();
+
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+
+  const totalValue = shipments.reduce((sum, s) => sum + s.value, 0);
+  const totalDuty = shipments.reduce((sum, s) => sum + s.duty, 0);
+  const avgCompliance =
+    shipments.reduce((sum, s) => sum + s.compliance, 0) / shipments.length;
+
+  /* FILTERED DATA */
+  const filteredShipments = shipments.filter((item) => {
+    const matchSearch =
+      item.id.toLowerCase().includes(search.toLowerCase()) ||
+      item.description.toLowerCase().includes(search.toLowerCase());
+
+    const matchStatus =
+      statusFilter === "All" || item.status === statusFilter;
+
+    return matchSearch && matchStatus;
+  });
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-10 px-2">
+
+      {/* HEADER */}
       <div>
-        <h2 className="text-3xl font-bold text-slate-900">Compliance Workflows</h2>
-        <p className="text-slate-600 mt-1">Monitor and manage compliance status across all shipments.</p>
+        <p className="text-slate-600 mt-1">
+          Monitor and manage compliance status across all shipments.
+        </p>
       </div>
 
-      {/* Stats */}
+      {/* STATS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">AI COMPLIANCE RATE</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-baseline justify-between">
-              <span className="text-3xl font-bold text-slate-900">93.7%</span>
+
+        <Card>
+          <CardContent className="pt-5">
+            <p className="text-xs text-slate-500">AI COMPLIANCE RATE</p>
+            <div className="flex items-center justify-between mt-2">
+              <h2 className="text-3xl font-bold">
+                {avgCompliance.toFixed(1)}%
+              </h2>
               <div className="flex items-center gap-1 text-green-600">
                 <TrendingUp className="w-4 h-4" />
-                <span className="text-sm font-medium">+2.1%</span>
+                +2.1%
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">TOTAL SHIPMENT VALUE</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-baseline justify-between">
-              <span className="text-3xl font-bold text-slate-900">RM 60,500</span>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                3 / 4 completed
-              </Badge>
+        <Card>
+          <CardContent className="pt-5">
+            <p className="text-xs text-slate-500">TOTAL SHIPMENT VALUE</p>
+            <div className="flex items-center justify-between mt-2">
+            
+
+            <h2 className="text-3xl font-bold">
+              RM {totalValue.toLocaleString()}
+            </h2>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">ESTIMATED DUTY</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-baseline justify-between">
-              <span className="text-3xl font-bold text-slate-900">RM 1,250</span>
+        <Card>
+          <CardContent className="pt-5">
+            <p className="text-xs text-slate-500">ESTIMATED DUTY</p>
+            <div className="flex items-center justify-between mt-2">
+              <h2 className="text-3xl font-bold">
+                RM {totalDuty.toLocaleString()}
+              </h2>
               <div className="flex items-center gap-1 text-red-600">
                 <TrendingDown className="w-4 h-4" />
-                <span className="text-sm font-medium">-1.2%</span>
+                -1.2%
               </div>
             </div>
           </CardContent>
         </Card>
+
       </div>
 
-      {/* Compliance Chart */}
-      <Card className="border-slate-200">
+
+      {/* CHART */}
+      <Card>
         <CardHeader>
-          <CardTitle>Compliance Trend Analysis</CardTitle>
-          <CardDescription>Shipment status distribution over time</CardDescription>
+          <CardTitle>Compliance Trend</CardTitle>
         </CardHeader>
+
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={280}>
             <BarChart data={complianceData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-              <XAxis dataKey="month" stroke="#64748B" />
-              <YAxis stroke="#64748B" />
-              <Tooltip contentStyle={{ backgroundColor: "#1F2937", border: "1px solid #374151", borderRadius: "8px", color: "#F1F5F9" }} />
-              <Legend />
-              <Bar dataKey="approved" fill="#10B981" name="Approved" />
-              <Bar dataKey="pending" fill="#F59E0B" name="Pending" />
-              <Bar dataKey="rejected" fill="#EF4444" name="Rejected" />
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Legend
+                verticalAlign="top"
+                align="right"
+                iconType="circle"
+                wrapperStyle={{
+                  paddingBottom: 15,
+                  gap: "20px",
+                  fontSize: 12,
+                }}
+              />
+              <Bar dataKey="approved" fill="#10B981" />
+              <Bar dataKey="pending" fill="#F59E0B" />
+              <Bar dataKey="rejected" fill="#EF4444" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
 
-      {/* Shipment Details */}
-      <Card className="border-slate-200">
-        <CardHeader>
-          <CardTitle>Shipment Details</CardTitle>
-          <CardDescription>Current compliance status for all shipments</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-200">
-                  <th className="text-left py-3 px-4 font-semibold text-slate-700">SHIPMENT ID</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-700">DESCRIPTION</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-700">AI COMPLIANCE</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-700">TOTAL SHIPMENT VALUE</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-700">ESTIMATED DUTY</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-700">STATUS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shipmentDetails.map((item) => (
-                  <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50">
-                    <td className="py-3 px-4 font-mono text-blue-600">{item.id}</td>
-                    <td className="py-3 px-4 text-slate-700">{item.product}</td>
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 h-2 bg-slate-200 rounded-full overflow-hidden">
-                          <div className="h-full bg-green-500" style={{ width: item.compliance }}></div>
-                        </div>
-                        <span className="text-sm font-medium text-slate-700">{item.compliance}</span>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4 text-slate-900 font-semibold">{item.duty}</td>
-                    <td className="py-3 px-4 text-slate-900 font-semibold">{item.items}</td>
-                    <td className="py-3 px-4">
-                      <Badge className={item.status === "Approved" ? "bg-green-100 text-green-800 border-green-300" : "bg-yellow-100 text-yellow-800 border-yellow-300"}>
-                        {item.status}
-                      </Badge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* TABLE */}
+      <Card>
+
+      <CardHeader className="space-y-3">
+
+        {/* TOP ROW: TITLE + SEARCH + FILTER */}
+        <div className="flex items-center justify-between">
+
+          {/* LEFT TITLE */}
+          <div>
+            <CardTitle>Shipments</CardTitle>
+            <CardDescription className="pt-2">
+              Click shipment ID to view AI audit details
+            </CardDescription>
           </div>
-        </CardContent>
+
+          {/* RIGHT CONTROLS */}
+          <div className="flex items-center gap-3">
+
+            {/* SEARCH */}
+            <Input
+              placeholder="Search ID or description..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-64"
+            />
+
+            {/* FILTER DROPDOWN */}
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="h-10 px-3 rounded-md border border-slate-200 text-sm bg-white"
+            >
+              <option value="All">All Status</option>
+              <option value="Approved">Approved</option>
+              <option value="Pending">Pending</option>
+            </select>
+
+          </div>
+
+        </div>
+
+      </CardHeader>
+
+      <CardContent className="p-0">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 border-b">
+            <tr className="text-left text-slate-600">
+              <th className="py-3 px-4">Shipment ID</th>
+              <th className="py-3 px-4">Description</th>
+              <th className="py-3 px-4">AI Compliance</th>
+              <th className="py-3 px-4">Value</th>
+              <th className="py-3 px-4">Duty</th>
+              <th className="py-3 px-4">Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {shipments.map((item) => (
+              <tr
+                key={item.id}
+                className="border-b hover:bg-slate-50 transition cursor-pointer"
+                onClick={() =>
+                  setLocation(`/compliance-detail/${item.id}`)
+                }
+              >
+                {/* ID */}
+                <td className="py-3 px-4 text-[#3466E6] font-mono hover:underline">
+                  {item.id}
+                </td>
+
+                {/* DESCRIPTION */}
+                <td className="py-3 px-4 text-slate-700">
+                  {item.description}
+                </td>
+
+                {/* COMPLIANCE BAR */}
+                <td className="py-3 px-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-green-500"
+                        style={{ width: `${item.compliance}%` }}
+                      />
+                    </div>
+                    <span className="font-medium">
+                      {item.compliance}%
+                    </span>
+                  </div>
+                </td>
+
+                {/* VALUE */}
+                <td className="py-3 px-4 font-semibold text-slate-900">
+                  RM {item.value.toLocaleString()}
+                </td>
+
+                {/* DUTY */}
+                <td className="py-3 px-4 font-semibold text-slate-900">
+                  RM {item.duty.toLocaleString()}
+                </td>
+
+                {/* STATUS */}
+                <td className="py-3 px-4">
+                  <Badge className={getStatusColor(item.status)}>
+                    {item.status}
+                  </Badge>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </CardContent>
       </Card>
 
-      {/* Action Buttons */}
-      <div className="flex gap-4">
-        <Button className="bg-blue-600 hover:bg-blue-700">Edit</Button>
-        <Button className="bg-green-600 hover:bg-green-700">Escalate</Button>
-        <Button variant="outline">Approve</Button>
-      </div>
     </div>
   );
 }

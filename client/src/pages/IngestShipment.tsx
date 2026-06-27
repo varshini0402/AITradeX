@@ -48,8 +48,17 @@ export default function IngestShipment() {
     }
   };
 
+  const lastSync = new Date().toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-2 pb-10">
       <div>
         <p className="text-slate-600 mt-1">
           Upload shipping documents and provide technical specifications for automated compliance screening.
@@ -109,9 +118,10 @@ export default function IngestShipment() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="bg-slate-100 rounded-lg p-6 text-sm text-slate-600 font-mono">
-                Enter detailed technical parameters, chemical composition, or model numbers...
-              </div>
+              <textarea
+                placeholder="Enter detailed technical parameters, chemical composition, model numbers, dimensions, materials, or any additional product specifications..."
+                className="w-full min-h-[180px] rounded-lg border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3466E6] focus:border-[#3466E6] resize-none"
+              />
             </CardContent>
           </Card>
         </div>
@@ -201,14 +211,18 @@ export default function IngestShipment() {
               </CardDescription>
             </CardHeader>
 
-            <CardContent className="space-y-2 text-sm">
-              <div className="flex justify-between items-center">
-                <p className="text-green-600 font-medium">● System Online</p>
-                <p className="text-slate-600">
-                  Last Sync: 26 June 2026, 14:32
-                </p>
+          <CardContent className="text-sm">
+            <div className="flex justify-between items-center">
+              {/* Left */}
+              <p className="text-green-600 font-medium">● System Online</p>
+
+              {/* Right */}
+              <div className="text-right">
+                <p className="text-slate-500 text-xs">Last Sync</p>
+                <p className="text-slate-600">{lastSync}</p>
               </div>
-            </CardContent>
+            </div>
+          </CardContent>
           </Card>
 
           {/* ACTION BUTTONS */}

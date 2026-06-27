@@ -21,6 +21,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 .eslintcache
+/.manus-logs/
 
 # Local Environment Variables and Secrets
 .env
