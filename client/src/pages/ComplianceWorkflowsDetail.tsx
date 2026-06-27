@@ -1,5 +1,5 @@
 import { useParams } from "wouter";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -7,6 +7,8 @@ import {
   CheckCircle,
   ChevronLeft,
   ChevronRight,
+  TrendingUp,
+  TrendingDown
 } from "lucide-react";
 
 const shipmentDetails = [
@@ -103,11 +105,98 @@ export default function ComplianceWorkflowsDetail() {
 
       {/* SUMMARY */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card><CardContent className="pt-5"><p className="text-xs text-slate-500">AI CONFIDENCE</p><h2 className="text-3xl font-bold">93.7%</h2></CardContent></Card>
-        <Card><CardContent className="pt-5"><p className="text-xs text-slate-500">VALUE</p><h2 className="text-3xl font-bold">RM 60,500</h2></CardContent></Card>
-        <Card><CardContent className="pt-5"><p className="text-xs text-slate-500">DUTY</p><h2 className="text-3xl font-bold">RM 1,250</h2></CardContent></Card>
-        <Card><CardContent className="pt-5"><p className="text-xs text-slate-500">PROGRESS</p><h2 className="text-3xl font-bold">3 / 4</h2></CardContent></Card>
+
+  {/* AI Confidence */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        AI Confidence
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          93.7%
+        </span>
+
+        <div className="flex items-center gap-1 text-green-600 text-xs">
+          <TrendingUp className="w-3 h-3" />
+          <span>+1.8%</span>
+        </div>
       </div>
+    </CardContent>
+  </Card>
+
+  {/* Shipment Value */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Shipment Value
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          RM 60,500
+        </span>
+
+        <div className="flex items-center gap-1 text-green-600 text-xs">
+          <TrendingUp className="w-3 h-3" />
+          <span>+6.5%</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+
+  {/* Estimated Duty */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Estimated Duty
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          RM 1,250
+        </span>
+
+        <div className="flex items-center gap-1 text-red-600 text-xs">
+          <TrendingDown className="w-3 h-3" />
+          <span>-0.8%</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+
+  {/* Review Progress */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Review Progress
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          3 / 4
+        </span>
+
+        <Badge
+          variant="outline"
+          className="bg-blue-50 text-blue-700 border-blue-200 text-xs"
+        >
+          75%
+        </Badge>
+      </div>
+    </CardContent>
+  </Card>
+
+</div>
 
       {/* TABLE */}
       <Card className="border-slate-200 overflow-hidden p-0"> {/* ✅ removes top white gap effect */}
@@ -168,13 +257,8 @@ export default function ComplianceWorkflowsDetail() {
                       </Badge>
                     </td>
 
-                    <td className="py-3 px-4">
-                      <Button
-                        size="sm"
-                        className="bg-white text-[#3466E6] border border-[#3466E6] px-4 hover:bg-[#3466E6]/10"
-                      >
-                        Review
-                      </Button>
+                    <td className="py-3 px-4 text-right text-slate-400 text-lg">
+                      →
                     </td>
 
                   </tr>

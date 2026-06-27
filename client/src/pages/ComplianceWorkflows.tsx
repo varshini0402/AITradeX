@@ -114,50 +114,73 @@ export default function ComplianceWorkflows() {
       {/* STATS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-        <Card>
-          <CardContent className="pt-5">
-            <p className="text-xs text-slate-500">AI COMPLIANCE RATE</p>
-            <div className="flex items-center justify-between mt-2">
-              <h2 className="text-3xl font-bold">
-                {avgCompliance.toFixed(1)}%
-              </h2>
-              <div className="flex items-center gap-1 text-green-600">
-                <TrendingUp className="w-4 h-4" />
-                +2.1%
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+  {/* AI Compliance */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        AI Compliance Rate
+      </CardTitle>
+    </CardHeader>
 
-        <Card>
-          <CardContent className="pt-5">
-            <p className="text-xs text-slate-500">TOTAL SHIPMENT VALUE</p>
-            <div className="flex items-center justify-between mt-2">
-            
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          {avgCompliance.toFixed(1)}%
+        </span>
 
-            <h2 className="text-3xl font-bold">
-              RM {totalValue.toLocaleString()}
-            </h2>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="pt-5">
-            <p className="text-xs text-slate-500">ESTIMATED DUTY</p>
-            <div className="flex items-center justify-between mt-2">
-              <h2 className="text-3xl font-bold">
-                RM {totalDuty.toLocaleString()}
-              </h2>
-              <div className="flex items-center gap-1 text-red-600">
-                <TrendingDown className="w-4 h-4" />
-                -1.2%
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
+        <div className="flex items-center gap-1 text-green-600 text-sm">
+          <TrendingUp className="w-3 h-3" />
+          <span>+2.1%</span>
+        </div>
       </div>
+    </CardContent>
+  </Card>
+
+  {/* Total Shipment Value */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Total Shipment Value
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          RM {totalValue.toLocaleString()}
+        </span>
+
+        <div className="flex items-center gap-1 text-green-600 text-sm">
+          <TrendingUp className="w-3 h-3" />
+          <span>+8.4%</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+
+  {/* Estimated Duty */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Estimated Duty
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          RM 18.4K
+        </span>
+
+        <div className="flex items-center gap-1 text-red-600 text-sm">
+          <TrendingDown className="w-3 h-3" />
+          <span>-3.2%</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+
+</div>
 
 
       {/* CHART */}
@@ -197,7 +220,7 @@ export default function ComplianceWorkflows() {
       <CardHeader className="space-y-2">
 
         {/* TOP ROW: TITLE + SEARCH + FILTER */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pb-4">
 
           {/* LEFT TITLE */}
           <div>
@@ -307,7 +330,7 @@ export default function ComplianceWorkflows() {
 
           {/* LEFT INFO */}
           <p className="text-sm text-slate-500">
-            Showing 1-4 of 4 line items
+            Showing 1-4 of 1420 line items
           </p>
 
           {/* RIGHT CONTROLS */}

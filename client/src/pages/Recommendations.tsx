@@ -100,82 +100,101 @@ export default function RecommendationsMain() {
       </div>
 
       {/* ================= KPI CARDS ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-        {/* 1. Pending */}
-        <Card>
-          <CardContent className="pt-5">
-            <p className="text-xs text-slate-500">PENDING ITEMS</p>
-            <h2 className="text-3xl font-bold mt-2">
-              {pending.length}
-            </h2>
-            <p className="text-xs text-slate-400 mt-1">
-              Require classification review
-            </p>
-          </CardContent>
-        </Card>
+  {/* 1. Pending */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Pending Items
+      </CardTitle>
+    </CardHeader>
 
-        {/* 2. High confidence */}
-        <Card>
-          <CardContent className="pt-5">
-            <p className="text-xs text-slate-500">HIGH CONFIDENCE</p>
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          {pending.length}
+        </span>
 
-            <div className="flex items-center justify-between mt-2">
-              <h2 className="text-3xl font-bold">
-                {highConfidence.length}
-              </h2>
-
-              <span className="text-green-600 text-sm font-semibold">
-                {Math.round(
-                  (highConfidence.length / recommendations.length) * 100
-                )}
-                %
-              </span>
-            </div>
-
-            {/* simple bar */}
-            <div className="w-full h-2 bg-slate-200 rounded-full mt-3 overflow-hidden">
-              <div
-                className="h-full bg-green-500"
-                style={{
-                  width: `${
-                    (highConfidence.length / recommendations.length) *
-                    100
-                  }%`,
-                }}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* 3. Attention */}
-        <Card>
-          <CardContent className="pt-5">
-            <p className="text-xs text-slate-500">REQUIRES ATTENTION</p>
-
-            {attentionItem ? (
-              <>
-                <h2 className="text-lg font-bold mt-2">
-                  {attentionItem.id}
-                </h2>
-
-                <p className="text-xs text-slate-500 mt-1">
-                  {attentionItem.title}
-                </p>
-
-                <div className="flex items-center gap-2 text-red-600 mt-2 text-sm font-semibold">
-                  <AlertTriangle className="w-4 h-4" />
-                  Manual review needed
-                </div>
-              </>
-            ) : (
-              <p className="text-sm text-slate-500 mt-3">
-                No urgent items
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        <span className="text-xs text-slate-400">
+          Review required
+        </span>
       </div>
+    </CardContent>
+  </Card>
+
+
+  {/* 2. High confidence */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        High Confidence
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          {highConfidence.length}
+        </span>
+
+        <span className="text-green-600 text-xs font-semibold">
+          {Math.round(
+            (highConfidence.length / recommendations.length) * 100
+          )}
+          %
+        </span>
+      </div>
+
+      {/* progress bar */}
+      <div className="w-full h-2 bg-slate-200 rounded-full mt-3 overflow-hidden">
+        <div
+          className="h-full bg-green-500"
+          style={{
+            width: `${
+              (highConfidence.length / recommendations.length) * 100
+            }%`,
+          }}
+        />
+      </div>
+    </CardContent>
+  </Card>
+
+
+  {/* 3. Attention */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Requires Attention
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      {attentionItem ? (
+        <>
+          <div className="flex items-end justify-between">
+            <span className="text-lg font-bold text-slate-900">
+              {attentionItem.id}
+            </span>
+
+            <span className="text-red-600 text-xs font-semibold">
+              Action Needed
+            </span>
+          </div>
+
+          <p className="text-xs text-slate-500 mt-2">
+            {attentionItem.title}
+          </p>
+        </>
+      ) : (
+        <p className="text-sm text-slate-500">
+          No urgent items
+        </p>
+      )}
+    </CardContent>
+  </Card>
+
+</div>
 
       {/* ================= ANALYTICS ================= */}
       <div className="grid lg:grid-cols-2 gap-4">
@@ -242,7 +261,7 @@ export default function RecommendationsMain() {
   {/* ================= HEADER ================= */}
   <CardHeader className="space-y-2">
 
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between pb-4">
 
       {/* LEFT TITLE */}
       <div>

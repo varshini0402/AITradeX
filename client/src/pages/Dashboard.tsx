@@ -210,6 +210,12 @@ function timeAgo(date: Date): string {
   return `${Math.round(mins / 1440)}d ago`;
 }
 
+function getStatusColor(status: string) {
+  return status === "Approved"
+    ? "bg-green-100 text-green-700"
+    : "bg-yellow-100 text-yellow-700";
+}
+
 // ─── CITATION BADGE ───────────────────────────────────────────────────────────
 const citationStyles: Record<Citation["type"], React.CSSProperties> = {
   mntr:   { background: "rgba(16,185,129,0.1)", color: "#059669", border: "0.5px solid rgba(16,185,129,0.3)" },
@@ -322,7 +328,7 @@ function RegulationTracker() {
         {/* Title row */}
         <div className="flex items-start justify-between gap-2">
           <div>
-            <CardTitle className="text-sm font-bold text-slate-900">Regulation updates</CardTitle>
+            <CardTitle className="pb-2 font-bold text-slate-900">Regulation updates</CardTitle>
             <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
               <span
                 className="inline-block w-1.5 h-1.5 rounded-full"
@@ -554,82 +560,110 @@ export default function Dashboard() {
   const visibleCategories = rateCategory === "all" ? ALL_RATE_CATEGORIES : [rateCategory];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-2">
 
       {/* ── HEADER ── */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-slate-900">Good day, Ahmad</h2>
-          <p className="text-sm text-slate-500">You have 5 shipments pending review.</p>
+          <p className="text-sm text-slate-500 pt-2">You have 5 shipments pending review.</p>
         </div>
       </div>
 
       {/* ── ROW 1: KPI CARDS ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5">
-              <Package className="w-3.5 h-3.5" /> Shipments this month
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3">
-            <div className="flex items-end justify-between">
-              <span className="text-2xl font-bold text-slate-900">148</span>
-              <div className="flex items-center gap-1 text-green-600 text-xs font-semibold">
-                <TrendingUp className="w-3 h-3" /><span>+12%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5" /> Pending review
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3">
-            <div className="flex items-end justify-between">
-              <span className="text-2xl font-bold text-slate-900">5</span>
-              <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 text-xs">
-                Action needed
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
+  {/* Shipments This Month */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Shipments This Month
+      </CardTitle>
+    </CardHeader>
 
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5">
-              <FileCheck className="w-3.5 h-3.5" /> AI compliance
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3">
-            <div className="flex items-end justify-between">
-              <span className="text-2xl font-bold text-slate-900">93.7%</span>
-              <div className="flex items-center gap-1 text-green-600 text-xs font-semibold">
-                <TrendingUp className="w-3 h-3" /><span>+2.1%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          148
+        </span>
 
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5">
-              <DollarSign className="w-3.5 h-3.5" /> Est. duty
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3">
-            <div className="flex items-end justify-between">
-              <span className="text-2xl font-bold text-slate-900">RM 18.4K</span>
-              <div className="flex items-center gap-1 text-red-500 text-xs font-semibold">
-                <TrendingDown className="w-3 h-3" /><span>-3.2%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="flex items-center gap-1 text-green-600 text-xs">
+          <TrendingUp className="w-3 h-3" />
+          <span>+12%</span>
+        </div>
       </div>
+    </CardContent>
+  </Card>
+
+  {/* Pending Review */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Pending Review
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          5
+        </span>
+
+        <Badge
+          variant="outline"
+          className="bg-yellow-50 text-yellow-700 border-yellow-200 text-xs"
+        >
+          Action needed
+        </Badge>
+      </div>
+    </CardContent>
+  </Card>
+
+  {/* AI Compliance */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        AI Compliance
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          93.7%
+        </span>
+
+        <div className="flex items-center gap-1 text-green-600 text-xs">
+          <TrendingUp className="w-3 h-3" />
+          <span>+2.1%</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+
+  {/* Est. Duty */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Est. Duty
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          RM 18.4K
+        </span>
+
+        <div className="flex items-center gap-1 text-red-600 text-xs">
+          <TrendingDown className="w-3 h-3" />
+          <span>-3.2%</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+
+</div>
 
       {/* ── ROW 2: TARIFF RATE CHART + REGULATION TRACKER (equal halves) ── */}
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-4">
@@ -640,8 +674,8 @@ export default function Dashboard() {
             <div className="space-y-3">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <CardTitle className="text-sm font-bold text-slate-900">Tariff rate analysis</CardTitle>
-                  <CardDescription className="text-xs mt-0.5">
+                  <CardTitle className="font-bold pb-2 text-slate-900">Tariff rate analysis</CardTitle>
+                  <CardDescription className="text-sm mt-0.5">
                     Effective tariff rates by product category &amp; origin (Malaysia)
                   </CardDescription>
                 </div>
@@ -773,57 +807,84 @@ export default function Dashboard() {
       </div>
 
       {/* ── ROW 3: RECENT ACTIVITY ── */}
-      <Card className="border-slate-200">
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-sm font-bold text-slate-900">Recent activity</CardTitle>
-              <CardDescription className="text-xs">Latest shipment classifications</CardDescription>
-            </div>
-            <Button variant="outline" size="sm" className="text-xs">View all →</Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className="border-b border-slate-200">
-                  <th className="text-left py-2 px-2 font-semibold text-slate-600">ID</th>
-                  <th className="text-left py-2 px-2 font-semibold text-slate-600">Product</th>
-                  <th className="text-left py-2 px-2 font-semibold text-slate-600">Value (RM)</th>
-                  <th className="text-left py-2 px-2 font-semibold text-slate-600">Compliance</th>
-                  <th className="text-left py-2 px-2 font-semibold text-slate-600">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentActivity.map((item) => (
-                  <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                    <td className="py-2 px-2 font-mono text-blue-600">{item.id}</td>
-                    <td className="py-2 px-2 text-slate-700 max-w-[200px] truncate">{item.product}</td>
-                    <td className="py-2 px-2 font-semibold text-slate-900">{item.value}</td>
-                    <td className="py-2 px-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                          <div
-                            className="h-full rounded-full bg-green-500"
-                            style={{ width: `${item.compliance}%` }}
-                          />
-                        </div>
-                        <span className="text-slate-600 w-7">{item.compliance}%</span>
-                      </div>
-                    </td>
-                    <td className="py-2 px-2">
-                      <Badge className="bg-green-100 text-green-800 border-green-200 text-xs">
-                        {item.status}
-                      </Badge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+      <Card className="border-slate-200 overflow-hidden pb-0">
+  <CardHeader className="pb-3">
+    <div className="flex items-center justify-between">
+      <div>
+        <CardTitle className="font-bold text-slate-900 pb-2">
+          Recent activity
+        </CardTitle>
+        <CardDescription className="text-sm">
+          Latest shipment classifications
+        </CardDescription>
+      </div>
+
+      <Button variant="outline" size="sm" className="text-xs">
+        View all →
+      </Button>
+    </div>
+  </CardHeader>
+
+  <CardContent className="p-0">
+    <table className="w-full text-sm p-0">
+      <thead className="bg-slate-50 border-b">
+        <tr className="text-left text-slate-600">
+          <th className="py-3 px-4">ID</th>
+          <th className="py-3 px-4">Product</th>
+          <th className="py-3 px-4">AI Compliance</th>
+          <th className="py-3 px-4">Value</th>
+          <th className="py-3 px-4">Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {recentActivity.map((item) => (
+          <tr
+            key={item.id}
+            className="border-b hover:bg-slate-50 transition cursor-pointer"
+          >
+            {/* ID */}
+            <td className="py-3 px-4 font-mono text-[#3466E6] hover:underline">
+              {item.id}
+            </td>
+
+            {/* PRODUCT */}
+            <td className="py-3 px-4 text-slate-700 max-w-[240px] truncate">
+              {item.product}
+            </td>
+
+            {/* COMPLIANCE BAR */}
+            <td className="py-3 px-4">
+              <div className="flex items-center gap-2">
+                <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-green-500"
+                    style={{ width: `${item.compliance}%` }}
+                  />
+                </div>
+                <span className="font-medium text-slate-700">
+                  {item.compliance}%
+                </span>
+              </div>
+            </td>
+
+            {/* VALUE */}
+            <td className="py-3 px-4 font-semibold text-slate-900">
+              RM {item.value.toLocaleString()}
+            </td>
+
+            {/* STATUS */}
+            <td className="py-3 px-4">
+              <Badge className={getStatusColor(item.status)}>
+                {item.status}
+              </Badge>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </CardContent>
+</Card>
 
       {/* ── SYSTEM STATUS FOOTER ── */}
       <Card className="border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50">
@@ -837,7 +898,7 @@ export default function Dashboard() {
               <div key={label} className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
                 <div>
-                  <p className="text-xs font-semibold text-slate-900">{label}</p>
+                  <p className="text-sm font-semibold text-slate-900">{label}</p>
                   <p className="text-xs text-slate-500">{sub}</p>
                 </div>
               </div>

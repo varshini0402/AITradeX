@@ -12,6 +12,8 @@ import {
   Download,
   ChevronLeft,
   ChevronRight,
+  TrendingDown,
+  TrendingUp
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -99,43 +101,102 @@ export default function AuditTrail() {
       </div>
 
 
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-0">
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">TOTAL AUDITS</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <span className="text-3xl font-bold text-slate-900">1482</span>
-          </CardContent>
-        </Card>
+   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
 
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">ANNUAL OVERRIDES</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <span className="text-3xl font-bold text-slate-900">4.2%</span>
-          </CardContent>
-        </Card>
+  {/* Total Audits */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Total Audits
+      </CardTitle>
+    </CardHeader>
 
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">AI COMPLIANCE</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <span className="text-3xl font-bold text-slate-900">94.8%</span>
-          </CardContent>
-        </Card>
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          1482
+        </span>
 
-        <Card className="border-slate-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">PENDING</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <span className="text-3xl font-bold text-slate-900">24</span>
-          </CardContent>
-        </Card>
+        <div className="flex items-center gap-1 text-green-600 text-sm">
+          <TrendingUp className="w-3 h-3" />
+          <span>+12%</span>
+        </div>
       </div>
+    </CardContent>
+  </Card>
+
+
+  {/* Annual Overrides */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Annual Overrides
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          4.2%
+        </span>
+
+        <Badge
+          variant="outline"
+          className="bg-yellow-50 text-yellow-700 border-yellow-200 text-sm"
+        >
+          Action
+        </Badge>
+      </div>
+    </CardContent>
+  </Card>
+
+
+  {/* AI Compliance */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        AI Compliance
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          94.8%
+        </span>
+
+        <div className="flex items-center gap-1 text-green-600 text-sm">
+          <TrendingUp className="w-3 h-3" />
+          <span>+2.1%</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+
+
+  {/* Pending */}
+  <Card className="border-slate-200">
+    <CardHeader className="pb-2">
+      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+        Pending
+      </CardTitle>
+    </CardHeader>
+
+    <CardContent className="pb-3">
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-slate-900">
+          24
+        </span>
+
+        <div className="flex items-center gap-1 text-red-600 text-sm">
+          <TrendingDown className="w-3 h-3" />
+          <span>-3.2%</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+
+</div>
 
 
       {/* ================= TABLE ================= */}
@@ -144,7 +205,7 @@ export default function AuditTrail() {
         {/* HEADER CONTROLS */}
        <CardHeader className="space-y-3">
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pb-4">
 
           {/* TITLE ONLY (no description) */}
           <div>
@@ -233,9 +294,22 @@ export default function AuditTrail() {
                     {new Date(item.date).toLocaleString()}
                   </td>
 
-                  <td className="py-3 px-4">
-                    {item.compliance}
-                  </td>
+             <td className="py-3 px-4">
+  <div className="flex items-center gap-2">
+    <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
+      <div
+        className="h-full bg-green-500"
+        style={{
+          width: `${item.compliance.replace("%", "")}%`,
+        }}
+      />
+    </div>
+
+    <span className="font-medium text-slate-700">
+      {item.compliance}
+    </span>
+  </div>
+</td>
 
                   <td className="py-3 px-4 text-slate-700">
                     {item.overrides}
@@ -267,7 +341,7 @@ export default function AuditTrail() {
           <div className="flex items-center justify-between px-4 py-3 border-t bg-white">
 
             <p className="text-sm text-slate-500">
-              Showing 1-4 of 4 line items
+              Showing 1-4 of 1482 line items
             </p>
 
             <div className="flex items-center gap-2">
