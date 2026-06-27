@@ -119,7 +119,7 @@ export default function ComplianceWorkflowsDetail() {
 
               <thead className="bg-slate-50 border-b">
                 <tr className="text-left text-slate-600">
-                  <th className="py-3 px-4">ID & Part</th>
+                  <th className="py-3 px-4">Case ID & Part</th>
                   <th className="py-3 px-4">Description & Material</th>
                   <th className="py-3 px-4">Plant & Supplier</th>
                   <th className="py-3 px-4">HTS Code</th>

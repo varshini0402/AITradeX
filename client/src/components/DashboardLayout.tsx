@@ -36,9 +36,15 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const isActive = (path: string) => location === path;
-  const [, params] = useRoute("/compliance-detail/:id");
+  // const [, params] = useRoute("/compliance-detail/:id");
 
-  const shipmentId = params?.id;
+  // const shipmentId = params?.id;
+
+  const [, complianceParams] = useRoute("/compliance-detail/:id");
+  const [, recommendationParams] = useRoute("/recommendation-detail/:id");
+
+  const shipmentId = complianceParams?.id;
+  const recommendationId = recommendationParams?.id;
 
   return (
     <div className="flex h-screen bg-background">
@@ -157,6 +163,8 @@ export default function DashboardLayout({
             ? "Knowledge Base & Support"
             : shipmentId
             ? `Shipment Analysis: ${shipmentId}`
+            : recommendationId
+            ? `Recommendation Case ${recommendationId}`
             : navItems.find((item) => isActive(item.path))?.label || "AITradeX"}
         </h1>
         </div>

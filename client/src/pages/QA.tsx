@@ -75,12 +75,12 @@ export default function QA() {
 
       {/* SEARCH */}
       <div className="relative max-w-2xl mx-auto">
-        <Search className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
+        <Search className="absolute left-4 top-3.5 h-5 w-5 text-slate-500" />
         <Input
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search..."
-          className="h-12 pl-12"
+          className="h-12 pl-12 border-slate-250"
         />
       </div>
 
@@ -116,7 +116,7 @@ export default function QA() {
                   <Icon className="w-4 h-4" />
                 </div>
 
-                <h3 className="text-xs font-semibold text-slate-700">
+                <h3 className="text-sm font-semibold text-slate-700">
                   {topic.name}
                 </h3>
               </CardContent>
@@ -127,7 +127,7 @@ export default function QA() {
 
       {/* TITLE */}
       <div className="flex justify-between items-center">
-        <h2 className="text-xs font-bold uppercase text-slate-400">
+        <h2 className="text-xs font-bold uppercase text-slate-400 mt-2">
           {activeTopic ? `${activeTopic} Entries` : "Frequently Asked Questions"}
         </h2>
       </div>
@@ -143,11 +143,11 @@ export default function QA() {
                 onClick={() =>
                   setExpandedId(isExpanded ? null : item.id)
                 }
-                className="p-4 cursor-pointer flex justify-between"
+                className="px-6 py-4 cursor-pointer flex justify-between"
               >
                 <div>
                   <Badge variant="outline">{item.category}</Badge>
-                  <h3 className="font-semibold">{item.question}</h3>
+                  <h3 className="font-semibold pt-2">{item.question}</h3>
                 </div>
 
                 <ChevronDown
