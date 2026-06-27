@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import ComplianceWorkflows from "./pages/ComplianceWorkflows";
 import ComplianceWorkflowsDetail from "./pages/ComplianceWorkflowsDetail";
 import Recommendations from "./pages/Recommendations";
+import RecommendationsDetail from "./pages/RecommendationsDetail";
 import AuditTrail from "./pages/AuditTrail";
 import QA from "./pages/QA";
 import Profile from "./pages/Profile";
@@ -23,8 +24,8 @@ function Router() {
       <Route path="/ingest" component={IngestShipment} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/compliance" component={ComplianceWorkflows} />
-      {/* <Route path="/compliance-detail" component={ComplianceWorkflowsDetail} /> */}
       <Route path="/compliance-detail/:id" component={ComplianceWorkflowsDetail} />
+      <Route path="/recommendation-detail/:id" component={RecommendationsDetail} />
       <Route path="/recommendations" component={Recommendations} />
       <Route path="/audit" component={AuditTrail} />
       <Route path="/qa" component={QA} />

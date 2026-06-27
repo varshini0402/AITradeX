@@ -10,7 +10,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -106,7 +106,7 @@ export default function ComplianceWorkflows() {
 
       {/* HEADER */}
       <div>
-        <p className="text-slate-600 mt-1">
+        <p className="text-slate-500 ">
           Monitor and manage compliance status across all shipments.
         </p>
       </div>
@@ -194,7 +194,7 @@ export default function ComplianceWorkflows() {
       {/* TABLE */}
       <Card>
 
-      <CardHeader className="space-y-3">
+      <CardHeader className="space-y-2">
 
         {/* TOP ROW: TITLE + SEARCH + FILTER */}
         <div className="flex items-center justify-between">
@@ -302,6 +302,32 @@ export default function ComplianceWorkflows() {
             ))}
           </tbody>
         </table>
+        {/* ================= PAGINATION ================= */}
+        <div className="flex items-center justify-between px-4 py-3 border-t bg-white">
+
+          {/* LEFT INFO */}
+          <p className="text-sm text-slate-500">
+            Showing 1-4 of 4 line items
+          </p>
+
+          {/* RIGHT CONTROLS */}
+          <div className="flex items-center gap-2">
+
+            <Button variant="outline" size="icon">
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+
+            <span className="text-sm font-medium text-slate-600">
+              Page 1
+            </span>
+
+            <Button variant="outline" size="icon">
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+
+          </div>
+
+        </div>
       </CardContent>
       </Card>
 
