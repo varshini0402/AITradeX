@@ -1,16 +1,25 @@
 import { useLocation } from "wouter";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Plus,
+  Search,
+  ArrowUpRight,
+  ArrowDownRight,
+  TrendingUp,
+  TrendingDown,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -21,16 +30,16 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-
+import { navigate } from "wouter/use-browser-location";
 /* ---------------- DATA ---------------- */
 
 const complianceData = [
-  { month: "Jan", approved: 120, pending: 25, rejected: 5 },
-  { month: "Feb", approved: 135, pending: 18, rejected: 3 },
-  { month: "Mar", approved: 128, pending: 22, rejected: 4 },
-  { month: "Apr", approved: 145, pending: 15, rejected: 2 },
-  { month: "May", approved: 152, pending: 12, rejected: 1 },
-  { month: "Jun", approved: 160, pending: 8, rejected: 2 },
+  { month: "Jan", approved: 120, pending: 3, rejected: 5 },
+  { month: "Feb", approved: 135, pending: 8, rejected: 3 },
+  { month: "Mar", approved: 128, pending: 11, rejected: 4 },
+  { month: "Apr", approved: 145, pending: 7, rejected: 2 },
+  { month: "May", approved: 152, pending: 0, rejected: 1 },
+  { month: "Jun", approved: 160, pending: 16, rejected: 2 },
 ];
 
 const shipments = [
@@ -89,6 +98,10 @@ export default function ComplianceWorkflows() {
   const avgCompliance =
     shipments.reduce((sum, s) => sum + s.compliance, 0) / shipments.length;
 
+  const handleNewIngest = () => {
+    navigate("/ingest");
+  };
+
   /* FILTERED DATA */
   const filteredShipments = shipments.filter((item) => {
     const matchSearch =
@@ -105,10 +118,21 @@ export default function ComplianceWorkflows() {
     <div className="space-y-6 pb-10 px-2">
 
       {/* HEADER */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <p className="text-slate-500 ">
           Monitor and manage compliance status across all shipments.
         </p>
+      </div>
+
+      {/* ⭐ New ingest button ⭐ */}
+        <Button 
+          onClick={handleNewIngest}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm flex items-center justify-center gap-2 h-10 px-4 rounded-xl self-start sm:self-auto transition-all"
+        >
+          <Plus className="w-4 h-4" />
+          Ingest Shipment
+        </Button>
       </div>
 
       {/* STATS */}
