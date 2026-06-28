@@ -113,9 +113,9 @@ export default function IngestShipment() {
                 <FileText className="w-4 h-4 text-[#3466E6]" />
                 MANUAL TECHNICAL SPECIFICATIONS
               </CardTitle>
-              <CardDescription>
+              {/* <CardDescription>
                 Enter product parameters, materials, or model numbers from documents.
-              </CardDescription>
+              </CardDescription> */}
             </CardHeader>
             <CardContent>
               <textarea

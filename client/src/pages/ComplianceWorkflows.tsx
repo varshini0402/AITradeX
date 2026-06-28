@@ -226,7 +226,7 @@ export default function ComplianceWorkflows() {
           <div>
             <CardTitle>Shipments</CardTitle>
             <CardDescription className="pt-2">
-              Click shipment ID to view AI audit details
+              Click shipment ID to view details
             </CardDescription>
           </div>
 

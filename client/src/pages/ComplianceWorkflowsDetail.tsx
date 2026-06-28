@@ -211,7 +211,7 @@ export default function ComplianceWorkflowsDetail() {
                   <th className="py-3 px-4">Case ID & Part</th>
                   <th className="py-3 px-4">Description & Material</th>
                   <th className="py-3 px-4">Plant & Supplier</th>
-                  <th className="py-3 px-4">HTS Code</th>
+                  <th className="py-3 px-4">Suggested HTS Code</th>
                   <th className="py-3 px-4">Confidence</th>
                   <th className="py-3 px-4">Logistics</th>
                   <th className="py-3 px-4">Status</th>

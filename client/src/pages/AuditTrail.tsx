@@ -101,7 +101,7 @@ export default function AuditTrail() {
       </div>
 
 
-   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
   {/* Total Audits */}
   <Card className="border-slate-200">
@@ -151,8 +151,7 @@ export default function AuditTrail() {
   </Card>
 
 
-  {/* AI Compliance */}
-  <Card className="border-slate-200">
+  {/* <Card className="border-slate-200">
     <CardHeader className="pb-2">
       <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
         AI Compliance
@@ -171,7 +170,7 @@ export default function AuditTrail() {
         </div>
       </div>
     </CardContent>
-  </Card>
+  </Card> */}
 
 
   {/* Pending */}
@@ -295,21 +294,21 @@ export default function AuditTrail() {
                   </td>
 
              <td className="py-3 px-4">
-  <div className="flex items-center gap-2">
-    <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
-      <div
-        className="h-full bg-green-500"
-        style={{
-          width: `${item.compliance.replace("%", "")}%`,
-        }}
-      />
-    </div>
+              <div className="flex items-center gap-2">
+                <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-green-500"
+                    style={{
+                      width: `${item.compliance.replace("%", "")}%`,
+                    }}
+                  />
+                </div>
 
-    <span className="font-medium text-slate-700">
-      {item.compliance}
-    </span>
-  </div>
-</td>
+                <span className="font-medium text-slate-700">
+                  {item.compliance}
+                </span>
+              </div>
+            </td>
 
                   <td className="py-3 px-4 text-slate-700">
                     {item.overrides}

@@ -230,9 +230,9 @@ export default function Profile() {
           <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
             Account Settings
           </CardTitle>
-          <CardDescription className="text-slate-500">
+          {/* <CardDescription className="text-slate-500">
             Manage preferences and security
-          </CardDescription>
+          </CardDescription> */}
         </CardHeader>
 
         <CardContent className="space-y-6">
@@ -324,7 +324,7 @@ export default function Profile() {
       </Card>
 
       {/* DANGER */}
-      <Card className="border-red-200 bg-red-50">
+      {/* <Card className="border-red-200 bg-red-50">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm font-semibold text-red-700 uppercase">
             Danger Zone
@@ -340,7 +340,7 @@ export default function Profile() {
             Delete Account
           </Button>
         </CardContent>
-      </Card>
+      </Card> */}
 
     </div>
   );
