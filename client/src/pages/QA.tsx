@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   ChevronDown,
   Search,
@@ -11,7 +11,9 @@ import {
   Shield,
   DollarSign,
   Package,
-  Globe
+  Globe,
+  HelpCircle,
+  X
 } from "lucide-react";
 
 interface FAQItem {
@@ -25,7 +27,23 @@ interface FAQItem {
 
 const faqData: FAQItem[] = [
   {
+    id: 0,
+    category: "AI Classification",
+    question: "What is the overall AITradeX workflow?",
+    answer: "AITradeX operates on a streamlined 3-step pipeline designed to automate global trade compliance: 1) Ingest Shipment (direct upload of commercial invoices or tech specs), 2) AI Analysis (automatic HS code determination and duty rate calculation), and 3) Manual Verification (human-in-the-loop review to finalize submissions with complete confidence).",
+    helpful: 312,
+    unhelpful: 5,
+  },
+  {
     id: 1,
+    category: "Shipment Upload",
+    question: "What file formats are supported for batch shipment uploads?",
+    answer: "You can upload files using standard templates in .xlsx, .csv, and .ods formats. For seamless automated workflows, you can also connect your database natively via our API or compatible ERP connectors.",
+    helpful: 45,
+    unhelpful: 2,
+  },
+  {
+    id: 2,
     category: "Compliance",
     question: "What does the AI Compliance Rate mean?",
     answer:
@@ -34,7 +52,7 @@ const faqData: FAQItem[] = [
     unhelpful: 8,
   },
   {
-    id: 2,
+    id: 3,
     category: "Tariff Calculation",
     question: "How is the estimated duty calculated?",
     answer:
@@ -44,10 +62,29 @@ const faqData: FAQItem[] = [
   },
 ];
 
+const categoryColors: Record<string, string> = {
+  "Shipment Upload": "bg-blue-50 text-blue-700 border-blue-200/60",
+  "AI Classification": "bg-indigo-50 text-indigo-700 border-indigo-200/60",
+  "Compliance": "bg-amber-50 text-amber-700 border-amber-200/60",
+  "Tariff Calculation": "bg-emerald-50 text-emerald-700 border-emerald-200/60",
+  "FTA Eligibility": "bg-teal-50 text-teal-700 border-teal-200/60",
+  "ERP Integration": "bg-orange-50 text-orange-700 border-orange-200/60",
+};
+
 export default function QA() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
+
+  // Check if any filters are currently active
+  const isFiltered = activeTopic !== null || searchQuery.trim() !== "";
+
+  // Reset all filters helper function
+  const handleClearFilters = () => {
+    setSearchQuery("");
+    setActiveTopic(null);
+    setExpandedId(null);
+  };
 
   const filteredFAQ = faqData.filter((item) => {
     const cleanQuery = searchQuery.trim().toLowerCase();
@@ -130,43 +167,84 @@ export default function QA() {
         <h2 className="text-xs font-bold uppercase text-slate-400 mt-2">
           {activeTopic ? `${activeTopic} Entries` : "Frequently Asked Questions"}
         </h2>
+
+        {/*Clear filter button */}
+        {isFiltered && (
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleClearFilters}
+            className="text-xs h-7 px-2.5 text-blue-600 hover:text-blue-700 hover:bg-blue-50 font-medium rounded-lg flex items-center gap-1 transition-all"
+          >
+            Clear Filters
+            <X className="w-3.5 h-3.5" />
+          </Button>
+        )}
       </div>
 
       {/* FAQ LIST */}
       <div className="space-y-3">
-        {filteredFAQ.map((item) => {
-          const isExpanded = expandedId === item.id;
 
-          return (
-            <Card key={item.id}>
-              <div
-                onClick={() =>
-                  setExpandedId(isExpanded ? null : item.id)
-                }
-                className="px-6 py-4 cursor-pointer flex justify-between"
+        {filteredFAQ.length === 0 ? (
+          <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+            <HelpCircle className="w-8 h-8 text-slate-300 mx-auto mb-3" />
+            <p className="text-slate-500 font-medium">No results found for your search.</p>
+            <p className="text-slate-400 text-xs mt-1 mb-4">Try clarifying your terms or clearing filters.</p>
+          
+          </div>
+        ) : (
+          filteredFAQ.map((item) => {
+            const isExpanded = expandedId === item.id;
+
+            const badgeColorClass = categoryColors[item.category] || "bg-slate-100 text-slate-700 border-slate-200";
+
+            return (
+              <Card 
+                key={item.id} 
+                className={`transition-all duration-200 ${isExpanded ? "shadow-sm border-slate-300" : "hover:border-slate-300"}`}
               >
-                <div>
-                  <Badge variant="outline">{item.category}</Badge>
-                  <h3 className="font-semibold pt-2">{item.question}</h3>
+                <div
+                  onClick={() => setExpandedId(isExpanded ? null : item.id)}
+                  className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 select-none"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                    {/* Dynamic Badge Styling applied here */}
+                    <Badge 
+                      variant="outline" 
+                      className={`w-fit font-semibold text-xs px-2.5 py-0.5 rounded-md border whitespace-nowrap shadow-sm transition-colors ${badgeColorClass}`}
+                    >
+                      {item.category}
+                    </Badge>
+                    <h3 className="font-semibold text-slate-800 text-sm sm:text-base">
+                      {item.question}
+                    </h3>
+                  </div>
+
+                  <ChevronDown
+                    className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
+                      isExpanded ? "rotate-180 text-slate-700" : ""
+                    }`}
+                  />
                 </div>
 
-                <ChevronDown
-                  className={`w-4 h-4 transition ${
-                    isExpanded ? "rotate-180" : ""
+                <div
+                  className={`grid transition-all duration-200 ease-in-out ${
+                    isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                   }`}
-                />
-              </div>
+                >
+                  <div className="overflow-hidden">
+                    <CardContent className="pb-5 pt-1 px-6 border-t border-slate-50">
+                      <p className="text-sm text-slate-600 leading-relaxed">
+                        {item.answer}
+                      </p>
+                    </CardContent>
+                  </div>
+                </div>
+              </Card>
+            );
+          })
+        )}
 
-              {isExpanded && (
-                <CardContent>
-                  <p className="text-sm text-slate-600">
-                    {item.answer}
-                  </p>
-                </CardContent>
-              )}
-            </Card>
-          );
-        })}
       </div>
     </div>
   );
