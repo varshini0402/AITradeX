@@ -128,8 +128,8 @@ export default function ComplianceWorkflows() {
           {avgCompliance.toFixed(1)}%
         </span>
 
-        <div className="flex items-center gap-1 text-green-600 text-sm">
-          <TrendingUp className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-green-600 text-s">
+          <TrendingUp className="w-5 h-5" />
           <span>+2.1%</span>
         </div>
       </div>
@@ -150,8 +150,8 @@ export default function ComplianceWorkflows() {
           RM {totalValue.toLocaleString()}
         </span>
 
-        <div className="flex items-center gap-1 text-green-600 text-sm">
-          <TrendingUp className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-green-600 text-s">
+          <TrendingUp className="w-5 h-5" />
           <span>+8.4%</span>
         </div>
       </div>
@@ -172,8 +172,8 @@ export default function ComplianceWorkflows() {
           RM 18.4K
         </span>
 
-        <div className="flex items-center gap-1 text-red-600 text-sm">
-          <TrendingDown className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-red-600 text-s">
+          <TrendingDown className="w-5 h-5" />
           <span>-3.2%</span>
         </div>
       </div>

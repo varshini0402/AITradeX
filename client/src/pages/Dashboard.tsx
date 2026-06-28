@@ -587,8 +587,8 @@ export default function Dashboard() {
           148
         </span>
 
-        <div className="flex items-center gap-1 text-green-600 text-xs">
-          <TrendingUp className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-green-600 text-s">
+          <TrendingUp className="w-5 h-5" />
           <span>+12%</span>
         </div>
       </div>
@@ -611,7 +611,7 @@ export default function Dashboard() {
 
         <Badge
           variant="outline"
-          className="bg-yellow-50 text-yellow-700 border-yellow-200 text-xs"
+          className="bg-yellow-50 text-yellow-700 border-yellow-200 text-sm"
         >
           Action needed
         </Badge>
@@ -633,8 +633,8 @@ export default function Dashboard() {
           93.7%
         </span>
 
-        <div className="flex items-center gap-1 text-green-600 text-xs">
-          <TrendingUp className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-green-600 text-s">
+          <TrendingUp className="w-5 h-5" />
           <span>+2.1%</span>
         </div>
       </div>
@@ -655,8 +655,8 @@ export default function Dashboard() {
           RM 18.4K
         </span>
 
-        <div className="flex items-center gap-1 text-red-600 text-xs">
-          <TrendingDown className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-red-600 text-s">
+          <TrendingDown className="w-5 h-5" />
           <span>-3.2%</span>
         </div>
       </div>
