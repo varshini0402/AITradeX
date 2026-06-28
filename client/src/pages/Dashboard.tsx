@@ -219,7 +219,7 @@ function RegulationTracker() {
           </h2>
         </div>
         {updates.length > 0 && (
-          <span className="text-xs bg-blue-100 text-blue-800 px-2.5 py-0.5 font-bold rounded-full transition-all">
+          <span className="text-xs bg-blue-100 text-blue-800 px-2.5 py-0.5 font-bold rounded-full transition-all text-center">
             {updates.length} Pending Review
           </span>
         )}
