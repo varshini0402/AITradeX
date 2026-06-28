@@ -382,7 +382,7 @@ export default function Dashboard() {
       </div>
 
       {/* Row 1: KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pb-4">
         <Card className="border-slate-200">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
@@ -455,7 +455,7 @@ export default function Dashboard() {
       </div>
 
       {/* Row 2: Tariff Rate Chart + Regulation Tracker */}
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 pb-4">
 
         {/* ── Tariff Rate Analysis — Grouped Bar Chart ── */}
         <Card className="border-slate-200 h-full lg:col-span-6">
@@ -464,7 +464,7 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <CardTitle className="font-bold pb-2 text-slate-900 flex items-center gap-2">
-                    <BarChart3 className="w-4 h-4 text-blue-600" />
+                    <BarChart3 className="w-5 h-4 text-blue-600" />
                     Tariff Rate Analysis
                   </CardTitle>
                   <CardDescription className="text-sm mt-0.5">
@@ -609,71 +609,73 @@ export default function Dashboard() {
       </div>
 
       {/* Row 3: Recent Activity */}
-      <Card className="border-slate-200 overflow-hidden pb-0">
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="font-bold text-slate-900 pb-2">Recent activity</CardTitle>
-              <CardDescription className="text-sm">
-                Latest shipment classifications
-              </CardDescription>
+      <div className="pb-4">
+        <Card className="border-slate-200 overflow-hidden pb-0">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="font-bold text-slate-900 pb-2">Recent activity</CardTitle>
+                <CardDescription className="text-sm">
+                  Latest shipment classifications
+                </CardDescription>
+              </div>
+              <Button variant="outline" size="sm" className="text-xs">
+                View all →
+              </Button>
             </div>
-            <Button variant="outline" size="sm" className="text-xs">
-              View all →
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm p-0">
-            <thead className="bg-slate-50 border-b">
-              <tr className="text-left text-slate-600">
-                <th className="py-3 px-4">ID</th>
-                <th className="py-3 px-4">Product</th>
-                <th className="py-3 px-4">AI Compliance</th>
-                <th className="py-3 px-4">Value</th>
-                <th className="py-3 px-4">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentActivity.map((item) => (
-                <tr
-                  key={item.id}
-                  className="border-b hover:bg-slate-50 transition cursor-pointer"
-                >
-                  <td className="py-3 px-4 font-mono text-[#3466E6] hover:underline">
-                    {item.id}
-                  </td>
-                  <td className="py-3 px-4 text-slate-700 max-w-[240px] truncate">
-                    {item.product}
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full"
-                          style={{
-                            width: `${item.compliance}%`,
-                            background: item.compliance >= 95 ? "#10b981" : item.compliance >= 90 ? "#f59e0b" : "#ef4444",
-                          }}
-                        />
-                      </div>
-                      <span className="font-medium text-slate-700">
-                        {item.compliance}%
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4 font-semibold text-slate-900">
-                    RM {item.value.toLocaleString()}
-                  </td>
-                  <td className="py-3 px-4">
-                    <Badge className={getStatusColor(item.status)}>{item.status}</Badge>
-                  </td>
+          </CardHeader>
+          <CardContent className="p-0">
+            <table className="w-full text-sm p-0">
+              <thead className="bg-slate-50 border-b">
+                <tr className="text-left text-slate-600">
+                  <th className="py-3 px-4">ID</th>
+                  <th className="py-3 px-4">Product</th>
+                  <th className="py-3 px-4">AI Compliance</th>
+                  <th className="py-3 px-4">Value</th>
+                  <th className="py-3 px-4">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </CardContent>
-      </Card>
+              </thead>
+              <tbody>
+                {recentActivity.map((item) => (
+                  <tr
+                    key={item.id}
+                    className="border-b hover:bg-slate-50 transition cursor-pointer"
+                  >
+                    <td className="py-3 px-4 font-mono text-[#3466E6] hover:underline">
+                      {item.id}
+                    </td>
+                    <td className="py-3 px-4 text-slate-700 max-w-[240px] truncate">
+                      {item.product}
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full"
+                            style={{
+                              width: `${item.compliance}%`,
+                              background: item.compliance >= 95 ? "#10b981" : item.compliance >= 90 ? "#f59e0b" : "#ef4444",
+                            }}
+                          />
+                        </div>
+                        <span className="font-medium text-slate-700">
+                          {item.compliance}%
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 font-semibold text-slate-900">
+                      RM {item.value.toLocaleString()}
+                    </td>
+                    <td className="py-3 px-4">
+                      <Badge className={getStatusColor(item.status)}>{item.status}</Badge>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* System Status Footer */}
       <Card className="border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50">
