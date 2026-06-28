@@ -116,7 +116,7 @@ export default function RecommendationsMain() {
           {pending.length}
         </span>
 
-        <span className="text-xs text-slate-400">
+        <span className="text-sm text-slate-400">
           Review required
         </span>
       </div>
@@ -138,7 +138,7 @@ export default function RecommendationsMain() {
           {highConfidence.length}
         </span>
 
-        <span className="text-green-600 text-xs font-semibold">
+        <span className="text-green-600 text-sm font-semibold">
           {Math.round(
             (highConfidence.length / recommendations.length) * 100
           )}
@@ -177,7 +177,7 @@ export default function RecommendationsMain() {
               {attentionItem.id}
             </span>
 
-            <span className="text-red-600 text-xs font-semibold">
+            <span className="text-red-600 text-sm font-semibold">
               Action Needed
             </span>
           </div>
