@@ -120,8 +120,8 @@ export default function ComplianceWorkflowsDetail() {
           93.7%
         </span>
 
-        <div className="flex items-center gap-1 text-green-600 text-xs">
-          <TrendingUp className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-green-600 text-s">
+          <TrendingUp className="w-5 h-5" />
           <span>+1.8%</span>
         </div>
       </div>
@@ -142,8 +142,8 @@ export default function ComplianceWorkflowsDetail() {
           RM 60,500
         </span>
 
-        <div className="flex items-center gap-1 text-green-600 text-xs">
-          <TrendingUp className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-green-600 text-s">
+          <TrendingUp className="w-5 h-5" />
           <span>+6.5%</span>
         </div>
       </div>
@@ -164,8 +164,8 @@ export default function ComplianceWorkflowsDetail() {
           RM 1,250
         </span>
 
-        <div className="flex items-center gap-1 text-red-600 text-xs">
-          <TrendingDown className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-red-600 text-s">
+          <TrendingDown className="w-5 h-5" />
           <span>-0.8%</span>
         </div>
       </div>
@@ -188,7 +188,7 @@ export default function ComplianceWorkflowsDetail() {
 
         <Badge
           variant="outline"
-          className="bg-blue-50 text-blue-700 border-blue-200 text-xs"
+          className="bg-blue-50 text-blue-700 border-blue-200 text-sm"
         >
           75%
         </Badge>
