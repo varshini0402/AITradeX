@@ -18,9 +18,20 @@ import {
   Lock,
   Bell,
   Globe,
+  Settings, 
   LogOut,
   Camera,
+  History, 
+  FileDown 
 } from "lucide-react";
+
+interface HistoryItem {
+  id: string;
+  timestamp: string;
+  action: "Approval" | "Edit";
+  target: string;
+  details: string;
+}
 
 export default function Profile() {
   const [notificationEmail, setNotificationEmail] = useState(true);
@@ -36,6 +47,31 @@ export default function Profile() {
     department: "Regulatory Affairs",
     phone: "+60 12-345-6789",
   });
+
+  // Mock History Activity Logs
+  const [historyData] = useState<HistoryItem[]>([
+    {
+      id: "TX-9021",
+      timestamp: "2026-06-28 14:22",
+      action: "Approval",
+      target: "Shipment #MY-4810",
+      details: "Approved HS Code classification matching 8708.29",
+    },
+    {
+      id: "TX-8911",
+      timestamp: "2026-06-26 09:15",
+      action: "Edit",
+      target: "Commercial Invoice #CI-9902",
+      details: "Updated item unit value from RM 450 to RM 490",
+    },
+    {
+      id: "TX-8840",
+      timestamp: "2026-06-25 16:40",
+      action: "Approval",
+      target: "FTA Eligibility Verification",
+      details: "Verified Form MJEPA for automotive components bundle",
+    },
+  ]);
 
   const notificationItems: {
     label: string;
@@ -73,6 +109,12 @@ export default function Profile() {
   const handleCancel = () => {
     setEditData(userData);
     setIsEditing(false);
+  };
+  
+  // Placeholder trigger for spreadsheet exporting
+  const handleExportExcel = () => {
+    alert("Exporting activity logs history to Excel format (.xlsx)...");
+    // In production, integrate your preferred library here (e.g., xlsx or standard CSV downloading layout)
   };
 
   return (
@@ -126,9 +168,9 @@ export default function Profile() {
                     {userData.role}
                   </p>
 
-                  <Badge className="bg-blue-100 text-blue-700 border-blue-200">
+                  <p className="text-slate-600 text-sm">
                     {userData.department}
-                  </Badge>
+                  </p>
 
                   <div className="pt-2">
                     <Button className="bg-blue-600 hover:bg-blue-700">
@@ -224,66 +266,130 @@ export default function Profile() {
         </CardContent>
       </Card>
 
-      {/* ================= SETTINGS ================= */}
-      <Card className="border-slate-200">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+      {/* ================= AUDIT LOG & EXPORT FEATURE ================= */}
+      <Card className="border-slate-200 shadow-sm">
+        <CardHeader className="pb-4 flex flex-row items-center justify-between space-y-0 gap-4">
+          <div>
+            <CardTitle className="text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+              <History className="w-4 h-4 text-slate-500" />
+              Activity & Approval History
+            </CardTitle>
+            <CardDescription className="text-slate-500 text-xs mt-1">
+              Review your historical approvals, workspace alterations, and document updates
+            </CardDescription>
+          </div>
+          
+          <Button 
+            onClick={handleExportExcel}
+            variant="outline" 
+            size="sm"
+            className="text-xs font-semibold h-9 rounded-xl flex items-center gap-1.5 border-slate-200 hover:bg-slate-50 shadow-sm shrink-0"
+          >
+            <FileDown className="w-4 h-4 text-emerald-600" />
+            Export to Excel
+          </Button>
+        </CardHeader>
+
+        <CardContent className="p-0 border-t border-slate-100">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr className="bg-slate-50/70 border-b border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 font-semibold">Timestamp</th>
+                  <th className="px-6 py-3 font-semibold">Action</th>
+                  <th className="px-6 py-3 font-semibold">Target Document</th>
+                  <th className="px-6 py-3 font-semibold hidden md:table-cell">Operation Details</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-50">
+                {historyData.map((item) => (
+                  <tr key={item.id} className="hover:bg-slate-50/40 transition-colors">
+                    <td className="px-6 py-3.5 whitespace-nowrap text-slate-500 font-mono text-xs">
+                      {item.timestamp}
+                    </td>
+                    <td className="px-6 py-3.5 whitespace-nowrap">
+                      <Badge 
+                        variant="outline" 
+                        className={`text-xs font-semibold px-2 py-0.5 rounded-md border ${
+                          item.action === "Approval" 
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-200/60" 
+                            : "bg-indigo-50 text-indigo-700 border-indigo-200/60"
+                        }`}
+                      >
+                        {item.action}
+                      </Badge>
+                    </td>
+                    <td className="px-6 py-3.5 font-medium text-slate-800 whitespace-nowrap">
+                      {item.target}
+                    </td>
+                    <td className="px-6 py-3.5 text-slate-500 text-xs max-w-xs truncate hidden md:table-cell">
+                      {item.details}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ================= ACCOUNT PREFERENCES SETTINGS ================= */}
+      <Card className="border-slate-200 shadow-sm overflow-hidden">
+        <CardHeader className="pb-4 bg-slate-50/50 border-b border-slate-100">
+          <CardTitle className="text-sm font-bold text-slate-700 uppercase tracking-wider">
             Account Settings
           </CardTitle>
-          <CardDescription className="text-slate-500">
-            Manage preferences and security
+          <CardDescription className="text-slate-500 text-xs">
+            Manage system notifications, configurations, and general security settings
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-6">
-
-          {/* NOTIFICATIONS */}
-          <div className="space-y-4">
-            <p className="text-sm font-semibold text-slate-900 flex items-center gap-2">
-              <Bell className="w-4 h-4 text-slate-500" />
-              Notifications
+        <CardContent className="p-6 space-y-4">
+          
+          {/* 1. NOTIFICATIONS SECTION */}
+          <div className="space-y-2.5">
+            <p className="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-2 pt-1 mb-3">
+              <Bell className="w-3.5 h-3.5" />
+              Notification Preferences
             </p>
-
-            <div className="space-y-3">
+            
+            <div className="space-y-2">
               {notificationItems.map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center justify-between"
+                <div 
+                  key={item.label} 
+                  className="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 bg-slate-50/30 hover:bg-slate-50/70 transition-colors gap-4"
                 >
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">
-                      {item.label}
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      {item.description}
-                    </p>
+                  <div className="space-y-0.5">
+                    <p className="text-sm font-semibold text-slate-800">{item.label}</p>
+                    <p className="text-xs text-slate-400">{item.description}</p>
                   </div>
-
-                  <Switch
-                    checked={item.value}
-                    onCheckedChange={item.setter}
-                  />
+                  <Switch checked={item.value} onCheckedChange={item.setter} />
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="border-t border-slate-200" />
+          <div className="border-t border-slate-100 my-2" />
 
-         {/* LANGUAGE */}
-          <div className="flex items-center justify-between">
-            
-            {/* LEFT LABEL */}
-            <p className="text-sm font-semibold text-slate-900 flex items-center gap-2">
-              <Globe className="w-4 h-4 text-slate-500" />
-              Language
+          {/* 2. LANGUAGE ROW */}
+            <p className="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-2 mb-3">
+              {/* Added mb-3 for clean space below the title*/}
+              <Settings className="w-3.5 h-3.5 text-slate-400" />
+              App Preferences & Security
             </p>
 
-            {/* RIGHT DROPDOWN */}
+          <div className="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 bg-slate-50/30">
+            <div className="space-y-0.5">
+              <p className="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                <Globe className="w-4 h-4 text-slate-400" />
+                Language
+              </p>
+              <p className="text-xs text-slate-400">Change your system localization profile</p>
+            </div>
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="h-10 w-44 px-3 border border-slate-200 rounded-md text-sm bg-white"
+              className="h-9 w-35 px-3 border border-slate-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm font-medium text-slate-700"
             >
               <option value="en">English</option>
               <option value="ms">Malay</option>
@@ -292,55 +398,34 @@ export default function Profile() {
             </select>
           </div>
 
-          <div className="border-t border-slate-200" />
-
-          {/* SECURITY */}
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-slate-900 flex items-center gap-2">
-                <Lock className="w-4 h-4 text-slate-500" />
+          {/* 3. SECURITY ROW (Single Row Content) */}
+          <div className="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 bg-slate-50/30">
+            <div className="space-y-0.5">
+              <p className="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                <Lock className="w-4 h-4 text-slate-400" />
                 Security
               </p>
-              <p className="text-xs text-slate-500 mt-1">
-                Password management
-              </p>
+              <p className="text-xs text-slate-400">Update account passwords and safety protocols</p>
             </div>
-
-            <Button variant="outline">Change Password</Button>
+            <Button variant="outline" className="h-9 rounded-lg text-sm font-semibold shadow-sm bg-white border-slate-200 hover:bg-slate-50">
+              Change Password
+            </Button>
           </div>
 
-          <div className="border-t border-slate-200" />
+          <div className="border-t border-slate-100 pt-2" />
 
-          {/* LOGOUT */}
-          <Button
-            variant="outline"
-            className="text-red-600 hover:bg-red-50 border-red-200"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Sign Out
-          </Button>
-
+          {/* 4. SIGN OUT ROW */}
+          <div className="flex justify-start">
+            <Button variant="outline" className="text-red-600 hover:bg-red-50/50 border-red-100 h-9 rounded-lg text-xs font-semibold shadow-sm bg-white">
+              <LogOut className="w-3.5 h-3.5 mr-1.5" />
+              Sign Out
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
-      {/* DANGER */}
-      <Card className="border-red-200 bg-red-50">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-semibold text-red-700 uppercase">
-            Danger Zone
-          </CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <p className="text-sm text-red-700 mb-3">
-            Account deletion is permanent
-          </p>
-
-          <Button variant="outline" className="text-red-600 border-red-300">
-            Delete Account
-          </Button>
-        </CardContent>
-      </Card>
+      {/* EXTRA BOTTOM SPACE BUFFER */}
+      <div className="h-15" />
 
     </div>
   );
