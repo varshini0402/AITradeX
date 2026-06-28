@@ -1,122 +1,67 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  TrendingUp, TrendingDown, AlertCircle, RefreshCw, ExternalLink,
-  AlertTriangle, Info, CheckCircle2, Eye, EyeOff, ChevronDown,
-  ChevronUp, Search, Shield, Clock, Package, FileCheck, DollarSign,
+  TrendingUp, TrendingDown, AlertCircle, ExternalLink,
+  AlertTriangle, Info, ArrowRight, ArrowUpRight, CheckCircle,
+  FolderOpen, Scale
 } from "lucide-react";
 import {
   LineChart, Line,
-  AreaChart, Area,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 type Severity = "urgent" | "warning" | "info";
-type FilterType = "all" | Severity;
-type TimeRange = "6M" | "1Y" | "YTD";
 
-interface Citation {
-  label: string;
-  url: string;
-  type: "mntr" | "jkdm" | "tariff";
+interface RateChange {
+  old: string;
+  new: string;
 }
 
-interface RegUpdate {
-  id: number;
+interface RegulatoryUpdate {
+  id: string;
+  agency: string;
+  type: "FTA Rule Change" | "Tariff Rate Shift" | "Policy Revision";
   title: string;
   summary: string;
-  severity: Severity;
-  offsetMins: number;
-  detectedAt: Date;
-  citations: Citation[];
-  readAt: Date | null;
-  expanded: boolean;
+  impact: string;
+  date: string;
+  badgeColor: string;
+  rateChange?: RateChange;
 }
 
-// ─── SOURCE URLs ──────────────────────────────────────────────────────────────
-const MNTR_URL    = "https://www.customs.gov.my/en/business/facilitation/malaysia-national-trade-repository-mntr";
-const JKDM_URL    = "https://www.customs.gov.my/en/trade/hs-explorer";
-const TARIFF_URL  = "https://www.customs.gov.my/en/trade/tariff";
-
-// ─── REGULATION DATA ──────────────────────────────────────────────────────────
-const BASE_UPDATES: Omit<RegUpdate, "detectedAt" | "readAt" | "expanded">[] = [
+// ─── REGULATION MOCK DATA ────────────────────────────────────────────────────
+const INITIAL_REGULATORY_DATA: RegulatoryUpdate[] = [
   {
-    id: 1,
-    title: "PDK 2025 — Perintah Duti Kastam 2025 (Customs Duties Order 2025)",
+    id: "REG-2026-042",
+    agency: "MITI Malaysia",
+    type: "FTA Rule Change",
+    title: "MOCFTA Rule of Origin Revision for Semiconductor Modules",
     summary:
-      "New comprehensive customs duties order effective 1 Jan 2025 published via MNTR. Covers revised HS codes for electronics, automotive parts, and agricultural goods. Replaces PDK 2017 amendments.",
-    severity: "urgent",
-    offsetMins: 2,
-    citations: [
-      { label: "MNTR", url: MNTR_URL, type: "mntr" },
-      { label: "Malaysia Customs Tariff 2025", url: TARIFF_URL, type: "tariff" },
-    ],
+      "The threshold for Regional Value Content (RVC) under the Malaysia-Oceania agreement has shifted from a flat 40% Build-Down calculation to an explicit 45% Net Cost method calculation.",
+    impact:
+      "High Impact — Affects 14 active electronics supplier SKUs originating from partner facilities.",
+    date: "Effective Jul 01, 2026",
+    badgeColor: "bg-amber-50 text-amber-700 border-amber-200/60",
   },
   {
-    id: 2,
-    title: "ACFTA — ASEAN–China Free Trade Agreement (Revised Schedule 2024)",
+    id: "REG-2026-039",
+    agency: "US International Trade Commission (USITC)",
+    type: "Tariff Rate Shift",
+    title: "Section 301 Ad Valorem Tariff Hike on Lithium-Ion Battery Components",
     summary:
-      "Updated preferential tariff schedule under ACFTA published. Affects import duties for goods originating from China under HS Chapters 84–90 (machinery & electronics). Effective from 1 Apr 2025.",
-    severity: "urgent",
-    offsetMins: 18,
-    citations: [
-      { label: "MNTR", url: MNTR_URL, type: "mntr" },
-      { label: "JKDM HS Explorer", url: JKDM_URL, type: "jkdm" },
-    ],
-  },
-  {
-    id: 3,
-    title: "ATIGA — ASEAN Trade in Goods Agreement (2025 Annex Update)",
-    summary:
-      "ASEAN Trade in Goods Agreement annex updated to reflect intra-ASEAN tariff eliminations for 2025. Zero-duty treatment extended to additional product lines including textiles and plastics.",
-    severity: "warning",
-    offsetMins: 120,
-    citations: [
-      { label: "MNTR", url: MNTR_URL, type: "mntr" },
-    ],
-  },
-  {
-    id: 4,
-    title: "RCEP — Regional Comprehensive Economic Partnership (MY Schedule Year 3)",
-    summary:
-      "Malaysia's Year 3 tariff reduction schedule under RCEP now live on MNTR. Covers staged reductions for 15 RCEP member countries across agriculture, textiles, and industrial goods.",
-    severity: "warning",
-    offsetMins: 300,
-    citations: [
-      { label: "MNTR", url: MNTR_URL, type: "mntr" },
-      { label: "Malaysia Customs Tariff 2025", url: TARIFF_URL, type: "tariff" },
-    ],
-  },
-  {
-    id: 5,
-    title: "MNZFTA — Malaysia–New Zealand Free Trade Agreement (Amendment)",
-    summary:
-      "Minor schedule amendment published for MNZFTA covering dairy and processed food categories (HS Chapter 4 & 21). No duty rate changes; clarification on origin criteria only.",
-    severity: "info",
-    offsetMins: 1440,
-    citations: [
-      { label: "MNTR", url: MNTR_URL, type: "mntr" },
-      { label: "JKDM HS Explorer", url: JKDM_URL, type: "jkdm" },
-    ],
+      "Standard Most-Favored-Nation (MFN) rates for HS Subheading 8507.60.00 are scheduled to rise. Tariff rate moving from 7.5% up to 25.0% due to trade policy adjustments.",
+    impact:
+      "Critical — Immediate duty recalculation required on incoming JPN-series shipments.",
+    date: "Effective Aug 15, 2026",
+    badgeColor: "bg-rose-50 text-rose-700 border-rose-200/60",
+    rateChange: { old: "7.5%", new: "25.0%" },
   },
 ];
 
-function buildUpdates(existing?: RegUpdate[]): RegUpdate[] {
-  return BASE_UPDATES.map((u) => ({
-    ...u,
-    detectedAt: new Date(Date.now() - u.offsetMins * 60_000),
-    readAt:     existing?.find((x) => x.id === u.id)?.readAt ?? null,
-    expanded:   existing?.find((x) => x.id === u.id)?.expanded ?? false,
-  }));
-}
-
-// ─── TARIFF COST DATA ─────────────────────────────────────────────────────────
+// ─── TARIFF COST DATA ────────────────────────────────────────────────────────
 const tariffDataset = [
   { month: "Jan", country: "China",   category: "Electronics", unit: "Operations",    cost: 18000, duty: 1260 },
   { month: "Jan", country: "China",   category: "Textiles",    unit: "Supply Chain",  cost: 10000, duty: 660  },
@@ -150,7 +95,9 @@ const tariffDataset = [
   { month: "Jun", country: "Vietnam", category: "Textiles",    unit: "Supply Chain",  cost: 9000,  duty: 810  },
 ];
 
-// ─── TARIFF RATE DATA ─────────────────────────────────────────────────────────
+// ─── TARIFF RATE DATA ────────────────────────────────────────────────────────
+type TimeRange = "6M" | "1Y" | "YTD";
+
 const tariffRateDataset: Record<TimeRange, { month: string; Electronics: number; Agriculture: number; Automotive: number; Textiles: number }[]> = {
   "6M": [
     { month: "Jan", Electronics: 18.2, Agriculture: 8.1,  Automotive: 12.5, Textiles: 6.2  },
@@ -174,7 +121,7 @@ const tariffRateDataset: Record<TimeRange, { month: string; Electronics: number;
     { month: "May", Electronics: 30.2, Agriculture: 11.5, Automotive: 18.9, Textiles: 9.2  },
     { month: "Jun", Electronics: 35.4, Agriculture: 12.3, Automotive: 22.4, Textiles: 10.8 },
   ],
-  "YTD": [
+  YTD: [
     { month: "Jan", Electronics: 18.2, Agriculture: 8.1,  Automotive: 12.5, Textiles: 6.2  },
     { month: "Feb", Electronics: 19.5, Agriculture: 8.4,  Automotive: 13.1, Textiles: 6.8  },
     { month: "Mar", Electronics: 22.1, Agriculture: 9.2,  Automotive: 14.8, Textiles: 7.1  },
@@ -194,356 +141,166 @@ const CATEGORY_COLORS: Record<string, string> = {
 const ALL_RATE_CATEGORIES = ["Electronics", "Agriculture", "Automotive", "Textiles"];
 const ALL_RATE_COUNTRIES  = ["China", "Japan", "Vietnam"];
 
-// ─── RECENT ACTIVITY ──────────────────────────────────────────────────────────
+// ─── RECENT ACTIVITY ─────────────────────────────────────────────────────────
 const recentActivity = [
   { id: "JPN-1006", product: "SUPPRESSOR VOLTAGE SMD 30V 1.2J",     value: "5,000",  compliance: 98, status: "Approved" },
   { id: "JPN-1007", product: "BTIO-BTI-SMJ-BM4T2-15 Monitor Touch", value: "25,000", compliance: 98, status: "Approved" },
   { id: "JPN-1008", product: "Industrial Temperature Sensor",        value: "8,500",  compliance: 92, status: "Approved" },
 ];
 
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
-function timeAgo(date: Date): string {
-  const mins = Math.round((Date.now() - date.getTime()) / 60_000);
-  if (mins < 1)    return "Just now";
-  if (mins < 60)   return `${mins}m ago`;
-  if (mins < 1440) return `${Math.round(mins / 60)}h ago`;
-  return `${Math.round(mins / 1440)}d ago`;
-}
-
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 function getStatusColor(status: string) {
   return status === "Approved"
     ? "bg-green-100 text-green-700"
     : "bg-yellow-100 text-yellow-700";
 }
 
-// ─── CITATION BADGE ───────────────────────────────────────────────────────────
-const citationStyles: Record<Citation["type"], React.CSSProperties> = {
-  mntr:   { background: "rgba(16,185,129,0.1)", color: "#059669", border: "0.5px solid rgba(16,185,129,0.3)" },
-  jkdm:   { background: "rgba(59,130,246,0.1)", color: "#2563eb", border: "0.5px solid rgba(59,130,246,0.3)" },
-  tariff: { background: "rgba(139,92,246,0.1)", color: "#7c3aed", border: "0.5px solid rgba(139,92,246,0.3)" },
-};
-
-function CitationLink({ citation }: { citation: Citation }) {
-  return (
-    <a
-      href={citation.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded no-underline"
-      style={citationStyles[citation.type]}
-    >
-      <ExternalLink className="w-2.5 h-2.5" />
-      {citation.label}
-    </a>
-  );
-}
-
-// ─── SEVERITY CONFIG ──────────────────────────────────────────────────────────
-const SEV_CONFIG: Record<Severity, {
-  bg: string; text: string; border: string; barColor: string;
-  icon: React.ReactNode; label: string;
-  filterActiveBg: string; filterActiveText: string; filterActiveBorder: string;
-}> = {
-  urgent: {
-    bg: "rgba(239,68,68,0.08)", text: "#dc2626", border: "rgba(239,68,68,0.35)",
-    barColor: "#ef4444",
-    icon: <AlertCircle className="w-3.5 h-3.5" />,
-    label: "Urgent",
-    filterActiveBg: "rgba(239,68,68,0.1)", filterActiveText: "#dc2626", filterActiveBorder: "rgba(239,68,68,0.4)",
-  },
-  warning: {
-    bg: "rgba(234,179,8,0.08)", text: "#ca8a04", border: "rgba(234,179,8,0.35)",
-    barColor: "#eab308",
-    icon: <AlertTriangle className="w-3.5 h-3.5" />,
-    label: "Warning",
-    filterActiveBg: "rgba(234,179,8,0.1)", filterActiveText: "#ca8a04", filterActiveBorder: "rgba(234,179,8,0.4)",
-  },
-  info: {
-    bg: "rgba(59,130,246,0.08)", text: "#2563eb", border: "rgba(59,130,246,0.35)",
-    barColor: "#3b82f6",
-    icon: <Info className="w-3.5 h-3.5" />,
-    label: "Info",
-    filterActiveBg: "rgba(59,130,246,0.1)", filterActiveText: "#2563eb", filterActiveBorder: "rgba(59,130,246,0.4)",
-  },
-};
-
 // ─── REGULATION TRACKER COMPONENT ────────────────────────────────────────────
 function RegulationTracker() {
-  const [updates,      setUpdates]      = useState<RegUpdate[]>(() => buildUpdates());
-  const [lastRefreshed, setLastRefreshed] = useState<Date>(new Date());
-  const [refreshing,   setRefreshing]   = useState(false);
-  const [filter,       setFilter]       = useState<FilterType>("all");
-  const [search,       setSearch]       = useState("");
-  const [, setTick] = useState(0);
+  const [updates, setUpdates] = useState<RegulatoryUpdate[]>(INITIAL_REGULATORY_DATA);
+  const [dismissingIds, setDismissingIds] = useState<string[]>([]);
 
-  // Tick every minute to keep relative timestamps fresh
-  useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 60_000);
-    return () => clearInterval(id);
-  }, []);
-
-  const handleRefresh = useCallback(async () => {
-    if (refreshing) return;
-    setRefreshing(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setUpdates((prev) => buildUpdates(prev));
-    setLastRefreshed(new Date());
-    setRefreshing(false);
-  }, [refreshing]);
-
-  const toggleExpand = useCallback((id: number) => {
-    setUpdates((prev) => prev.map((u) => u.id === id ? { ...u, expanded: !u.expanded } : u));
-  }, []);
-
-  const toggleRead = useCallback((id: number) => {
-    setUpdates((prev) => prev.map((u) => u.id === id ? { ...u, readAt: u.readAt ? null : new Date() } : u));
-  }, []);
-
-  const filtered = useMemo(() => {
-    const q = search.toLowerCase();
-    return updates.filter((u) => {
-      const matchFilter = filter === "all" || u.severity === filter;
-      const matchSearch = !q || u.title.toLowerCase().includes(q) || u.summary.toLowerCase().includes(q);
-      return matchFilter && matchSearch;
-    });
-  }, [updates, filter, search]);
-
-  const unread     = updates.filter((u) => !u.readAt);
-  const urgentCount  = unread.filter((u) => u.severity === "urgent").length;
-  const warningCount = unread.filter((u) => u.severity === "warning").length;
-  const infoCount    = unread.filter((u) => u.severity === "info").length;
-  const allClear     = urgentCount === 0 && warningCount === 0 && infoCount === 0;
-
-  const filterButtons: { key: FilterType; label: string }[] = [
-    { key: "all",     label: "All"     },
-    { key: "urgent",  label: "Urgent"  },
-    { key: "warning", label: "Warning" },
-    { key: "info",    label: "Info"    },
-  ];
+  const handleMarkAsRead = (id: string) => {
+    setDismissingIds((prev) => [...prev, id]);
+    setTimeout(() => {
+      setUpdates((prev) => prev.filter((item) => item.id !== id));
+      setDismissingIds((prev) => prev.filter((dId) => dId !== id));
+    }, 300);
+  };
 
   return (
-    <Card className="border-slate-200 flex flex-col h-full">
-      <CardHeader className="pb-3">
+    <div className="w-full h-full bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+      {/* Panel Header */}
+      <div className="p-5 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Scale className="w-5 h-5 text-blue-600" />
+          <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wider">
+            Regulatory Watch & Legal Updates
+          </h2>
+        </div>
+        {updates.length > 0 && (
+          <span className="text-xs bg-blue-100 text-blue-800 px-2.5 py-0.5 font-bold rounded-full transition-all">
+            {updates.length} Pending Review
+          </span>
+        )}
+      </div>
 
-        {/* Title row */}
-        <div className="flex items-start justify-between gap-2">
-          <div>
-            <CardTitle className="pb-2 font-bold text-slate-900">Regulation updates</CardTitle>
-            <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
-              <span
-                className="inline-block w-1.5 h-1.5 rounded-full"
-                style={{ background: allClear ? "#22c55e" : "#ef4444" }}
-              />
-              Last checked: {timeAgo(lastRefreshed)} · Sources: MNTR · JKDM · Customs Tariff 2025
+      {/* Notification Card Feed */}
+      <div className="divide-y divide-slate-100 flex-1 overflow-y-auto">
+        {updates.length === 0 ? (
+          <div className="p-12 text-center flex flex-col items-center justify-center text-slate-400">
+            <FolderOpen className="w-10 h-10 text-slate-300 mb-2" />
+            <p className="text-sm font-medium">All updates caught up!</p>
+            <p className="text-xs text-slate-400 mt-0.5">
+              No pending regulatory trade adjustments found.
             </p>
           </div>
-
-          {/* Summary dots */}
-          {allClear ? (
-            <span className="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full"
-              style={{ background: "rgba(34,197,94,0.1)", color: "#16a34a" }}>
-              <CheckCircle2 className="w-3 h-3" /> All clear
-            </span>
-          ) : (
-            <div className="flex items-center gap-1.5 flex-wrap justify-end">
-              {urgentCount  > 0 && <span className="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(239,68,68,0.1)", color: "#dc2626" }}><span className="w-1.5 h-1.5 rounded-full bg-red-500 inline-block" />{urgentCount} urgent</span>}
-              {warningCount > 0 && <span className="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(234,179,8,0.1)", color: "#ca8a04" }}><span className="w-1.5 h-1.5 rounded-full bg-yellow-500 inline-block" />{warningCount} warning</span>}
-              {infoCount    > 0 && <span className="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(59,130,246,0.1)", color: "#2563eb" }}><span className="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block" />{infoCount} info</span>}
-            </div>
-          )}
-        </div>
-
-        {/* Search */}
-        <div className="relative mt-2">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-400 pointer-events-none" />
-          <input
-            type="text"
-            placeholder="Search regulations…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-7 pr-3 py-1.5 text-xs rounded-md border border-slate-200 bg-white text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-400"
-          />
-        </div>
-
-        {/* Filter row */}
-        <div className="flex items-center gap-1.5 mt-2 flex-wrap">
-          {filterButtons.map(({ key, label }) => {
-            const isActive = filter === key;
-            const cfg = key !== "all" ? SEV_CONFIG[key as Severity] : null;
+        ) : (
+          updates.map((item) => {
+            const isDismissing = dismissingIds.includes(item.id);
             return (
-              <button
-                key={key}
-                onClick={() => setFilter(key)}
-                className="text-xs font-semibold px-2.5 py-1 rounded-md border transition-all"
-                style={
-                  isActive && cfg
-                    ? { background: cfg.filterActiveBg, color: cfg.filterActiveText, borderColor: cfg.filterActiveBorder }
-                    : isActive
-                    ? { background: "#f1f5f9", color: "#0f172a", borderColor: "#cbd5e1" }
-                    : { background: "white", color: "#64748b", borderColor: "#e2e8f0" }
-                }
+              <div
+                key={item.id}
+                className={`p-5 hover:bg-slate-50/40 space-y-3 transition-all duration-300 transform origin-top ${
+                  isDismissing
+                    ? "opacity-0 -translate-y-4 max-h-0 !p-0 !border-none overflow-hidden"
+                    : "opacity-100 translate-y-0"
+                }`}
               >
-                {label}
-              </button>
-            );
-          })}
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className="ml-auto flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-md border border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-700 disabled:opacity-50 transition-all bg-white"
-          >
-            <RefreshCw className={`w-3 h-3 ${refreshing ? "animate-spin" : ""}`} />
-            {refreshing ? "Checking…" : "Check"}
-          </button>
-        </div>
-      </CardHeader>
-
-      <CardContent className="pt-0 flex flex-col flex-1 min-h-0 overflow-hidden">
-        <div className="flex flex-col divide-y divide-slate-100 border border-slate-100 rounded-lg overflow-y-auto flex-1" style={{ maxHeight: "300px" }}>
-          {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-8 text-slate-400 gap-2">
-              <Search className="w-6 h-6" />
-              <p className="text-xs">No regulations match your filter.</p>
-            </div>
-          ) : (
-            filtered.map((item) => {
-              const cfg = SEV_CONFIG[item.severity];
-              const isRead = !!item.readAt;
-              return (
-                <div
-                  key={item.id}
-                  className="transition-opacity"
-                  style={{ opacity: isRead ? 0.45 : 1 }}
-                >
-                  <div className="flex gap-2.5 p-3">
-                    {/* Left severity bar */}
-                    <div
-                      className="w-0.5 rounded-full flex-shrink-0 self-stretch"
-                      style={{ background: cfg.barColor }}
-                    />
-
-                    {/* Icon */}
-                    <div
-                      className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
-                      style={{ background: cfg.bg, color: cfg.text }}
+                {/* Meta Row */}
+                <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-slate-500">{item.agency}</span>
+                    <span className="text-slate-300">•</span>
+                    <span
+                      className={`px-2 py-0.5 font-semibold rounded-md border text-[11px] ${item.badgeColor}`}
                     >
-                      {cfg.icon}
-                    </div>
-
-                    {/* Body */}
-                    <div className="flex-1 min-w-0">
-                      {/* Title + badge */}
-                      <div className="flex items-start gap-2 justify-between">
-                        <p className="text-xs font-semibold text-slate-800 leading-snug">{item.title}</p>
-                        <span
-                          className="text-xs font-bold px-1.5 py-0.5 rounded flex-shrink-0 capitalize"
-                          style={{ background: cfg.bg, color: cfg.text }}
-                        >
-                          {cfg.label}
-                        </span>
-                      </div>
-
-                      {/* Summary */}
-                      <p
-                        className="text-xs text-slate-500 leading-relaxed mt-1"
-                        style={item.expanded ? {} : {
-                          display: "-webkit-box",
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: "vertical" as const,
-                          overflow: "hidden",
-                        }}
-                      >
-                        {item.summary}
-                      </p>
-
-                      {/* Footer */}
-                      <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                        <span className="text-xs text-slate-400 flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {timeAgo(item.detectedAt)}
-                        </span>
-
-                        {/* Citation links */}
-                        {item.citations.map((c) => (
-                          <CitationLink key={c.label} citation={c} />
-                        ))}
-
-                        {/* Actions */}
-                        <div className="flex items-center gap-1.5 ml-auto">
-                          <button
-                            onClick={() => toggleExpand(item.id)}
-                            className="flex items-center gap-0.5 text-xs text-slate-400 hover:text-slate-600 transition-colors"
-                          >
-                            {item.expanded
-                              ? <><ChevronUp className="w-3 h-3" />Less</>
-                              : <><ChevronDown className="w-3 h-3" />More</>
-                            }
-                          </button>
-                          <button
-                            onClick={() => toggleRead(item.id)}
-                            className="flex items-center gap-1 text-xs px-2 py-0.5 rounded border border-slate-200 text-slate-400 hover:text-slate-600 hover:border-slate-300 transition-all"
-                          >
-                            {isRead
-                              ? <><EyeOff className="w-3 h-3" />Unread</>
-                              : <><Eye className="w-3 h-3" />Done</>
-                            }
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                      {item.type}
+                    </span>
                   </div>
+                  <span className="text-slate-400 font-medium">{item.date}</span>
                 </div>
-              );
-            })
-          )}
-        </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
-          <span className="text-xs text-slate-400 flex items-center gap-1">
-            <Shield className="w-3 h-3" />
-            Malaysia National Trade Repository
-          </span>
-          <a
-            href={MNTR_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded no-underline"
-            style={{ background: "rgba(16,185,129,0.1)", color: "#059669" }}
-          >
-            Visit MNTR <ExternalLink className="w-2.5 h-2.5" />
-          </a>
-        </div>
-      </CardContent>
-    </Card>
+                {/* Headline */}
+                <h3 className="text-base font-bold text-slate-900 tracking-tight leading-snug">
+                  {item.title}
+                </h3>
+
+                {/* Summary Callout */}
+                <p className="text-sm text-slate-500 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  {item.summary}
+                </p>
+
+                {/* Tariff Rate Change Sub-Element */}
+                {item.rateChange && (
+                  <div className="flex items-center gap-3 bg-rose-50/40 border border-rose-100 p-2.5 rounded-lg w-fit">
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+                      Tariff Shift:
+                    </span>
+                    <span className="font-mono text-xs line-through text-slate-400">
+                      {item.rateChange.old}
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+                    <span className="font-mono text-xs font-bold text-rose-600 flex items-center">
+                      {item.rateChange.new} <ArrowUpRight className="w-3 h-3 ml-0.5" />
+                    </span>
+                  </div>
+                )}
+
+                {/* Impact Notice */}
+                <div className="text-xs font-semibold text-slate-600 flex items-center gap-1.5 pt-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 shadow-sm" />
+                  <span>{item.impact}</span>
+                </div>
+
+                {/* Action Row */}
+                <div className="flex items-center justify-between pt-2 border-t border-slate-50">
+                  <button
+                    onClick={() => handleMarkAsRead(item.id)}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-slate-600 hover:bg-slate-100/80 px-2.5 py-1.5 rounded-lg transition-all"
+                  >
+                    <CheckCircle className="w-4 h-4 text-slate-400" />
+                    Mark as Read
+                  </button>
+                  <a
+                    href="https://miti.gov.my"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline transition-colors"
+                  >
+                    View Official Gazette Source <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </div>
   );
 }
 
-// ─── MAIN DASHBOARD ───────────────────────────────────────────────────────────
+// ─── MAIN DASHBOARD ──────────────────────────────────────────────────────────
 export default function Dashboard() {
-  // Cost analytics filters
-  const [selectedCountry,  setSelectedCountry]  = useState("all");
+  const [selectedCountry, setSelectedCountry]  = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedUnit,     setSelectedUnit]     = useState("all");
+  const [selectedUnit, setSelectedUnit]         = useState("all");
 
-  // Tariff rate chart filters
-  const [timeRange,    setTimeRange]    = useState<TimeRange>("6M");
-  const [rateCountry,  setRateCountry]  = useState("all");
+  const [timeRange, setTimeRange]     = useState<TimeRange>("6M");
+  const [rateCountry, setRateCountry] = useState("all");
   const [rateCategory, setRateCategory] = useState("all");
 
-  // Ticker for "last updated" label on cost card
   const [, setTick] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setTick((t) => t + 1), 60_000);
     return () => clearInterval(id);
   }, []);
 
-  // Filtered cost chart data
   const filteredChartData = useMemo(() => {
     const monthly: Record<string, { month: string; cost: number; duty: number }> = {};
     tariffDataset.forEach((item) => {
       if (
-        (selectedCountry  === "all" || item.country  === selectedCountry)  &&
+        (selectedCountry  === "all" || item.country  === selectedCountry) &&
         (selectedCategory === "all" || item.category === selectedCategory) &&
         (selectedUnit     === "all" || item.unit     === selectedUnit)
       ) {
@@ -553,7 +310,9 @@ export default function Dashboard() {
       }
     });
     const order = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-    return Object.values(monthly).sort((a, b) => order.indexOf(a.month) - order.indexOf(b.month));
+    return Object.values(monthly).sort(
+      (a, b) => order.indexOf(a.month) - order.indexOf(b.month)
+    );
   }, [selectedCountry, selectedCategory, selectedUnit]);
 
   const hasData = filteredChartData.length > 0;
@@ -561,8 +320,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-4 px-2">
-
-      {/* ── HEADER ── */}
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-slate-900">Good day, Ahmad</h2>
@@ -570,116 +328,93 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ── ROW 1: KPI CARDS ── */}
-     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      {/* Row 1: KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card className="border-slate-200">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+              Shipments This Month
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pb-3">
+            <div className="flex items-end justify-between">
+              <span className="text-2xl font-bold text-slate-900">148</span>
+              <div className="flex items-center gap-1 text-green-600 text-s">
+                <TrendingUp className="w-5 h-5" />
+                <span>+12%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-  {/* Shipments This Month */}
-  <Card className="border-slate-200">
-    <CardHeader className="pb-2">
-      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
-        Shipments This Month
-      </CardTitle>
-    </CardHeader>
+        <Card className="border-slate-200">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+              Pending Review
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pb-3">
+            <div className="flex items-end justify-between">
+              <span className="text-2xl font-bold text-slate-900">5</span>
+              <Badge
+                variant="outline"
+                className="bg-yellow-50 text-yellow-700 border-yellow-200 text-sm"
+              >
+                Action needed
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
 
-    <CardContent className="pb-3">
-      <div className="flex items-end justify-between">
-        <span className="text-2xl font-bold text-slate-900">
-          148
-        </span>
+        <Card className="border-slate-200">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+              AI Compliance
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pb-3">
+            <div className="flex items-end justify-between">
+              <span className="text-2xl font-bold text-slate-900">93.7%</span>
+              <div className="flex items-center gap-1 text-green-600 text-s">
+                <TrendingUp className="w-5 h-5" />
+                <span>+2.1%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        <div className="flex items-center gap-1 text-green-600 text-s">
-          <TrendingUp className="w-5 h-5" />
-          <span>+12%</span>
-        </div>
+        <Card className="border-slate-200">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
+              Est. Duty
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pb-3">
+            <div className="flex items-end justify-between">
+              <span className="text-2xl font-bold text-slate-900">RM 18.4K</span>
+              <div className="flex items-center gap-1 text-red-600 text-s">
+                <TrendingDown className="w-5 h-5" />
+                <span>-3.2%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </CardContent>
-  </Card>
 
-  {/* Pending Review */}
-  <Card className="border-slate-200">
-    <CardHeader className="pb-2">
-      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
-        Pending Review
-      </CardTitle>
-    </CardHeader>
-
-    <CardContent className="pb-3">
-      <div className="flex items-end justify-between">
-        <span className="text-2xl font-bold text-slate-900">
-          5
-        </span>
-
-        <Badge
-          variant="outline"
-          className="bg-yellow-50 text-yellow-700 border-yellow-200 text-sm"
-        >
-          Action needed
-        </Badge>
-      </div>
-    </CardContent>
-  </Card>
-
-  {/* AI Compliance */}
-  <Card className="border-slate-200">
-    <CardHeader className="pb-2">
-      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
-        AI Compliance
-      </CardTitle>
-    </CardHeader>
-
-    <CardContent className="pb-3">
-      <div className="flex items-end justify-between">
-        <span className="text-2xl font-bold text-slate-900">
-          93.7%
-        </span>
-
-        <div className="flex items-center gap-1 text-green-600 text-s">
-          <TrendingUp className="w-5 h-5" />
-          <span>+2.1%</span>
-        </div>
-      </div>
-    </CardContent>
-  </Card>
-
-  {/* Est. Duty */}
-  <Card className="border-slate-200">
-    <CardHeader className="pb-2">
-      <CardTitle className="text-sm font-semibold text-slate-600 uppercase">
-        Est. Duty
-      </CardTitle>
-    </CardHeader>
-
-    <CardContent className="pb-3">
-      <div className="flex items-end justify-between">
-        <span className="text-2xl font-bold text-slate-900">
-          RM 18.4K
-        </span>
-
-        <div className="flex items-center gap-1 text-red-600 text-s">
-          <TrendingDown className="w-5 h-5" />
-          <span>-3.2%</span>
-        </div>
-      </div>
-    </CardContent>
-  </Card>
-
-</div>
-
-      {/* ── ROW 2: TARIFF RATE CHART + REGULATION TRACKER (equal halves) ── */}
+      {/* Row 2: Tariff Rate Chart + Regulation Tracker */}
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-4">
-
-        {/* Tariff Rate Analysis */}
         <Card className="border-slate-200 h-full lg:col-span-6">
           <CardHeader className="pb-3">
             <div className="space-y-3">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <CardTitle className="font-bold pb-2 text-slate-900">Tariff rate analysis</CardTitle>
+                  <CardTitle className="font-bold pb-2 text-slate-900">
+                    Tariff rate analysis
+                  </CardTitle>
                   <CardDescription className="text-sm mt-0.5">
                     Effective tariff rates by product category &amp; origin (Malaysia)
                   </CardDescription>
                 </div>
-                {/* Time range toggle */}
                 <div className="flex gap-0.5 rounded-lg p-1 shrink-0 bg-slate-100">
                   {(["6M", "1Y", "YTD"] as const).map((t) => (
                     <button
@@ -687,10 +422,10 @@ export default function Dashboard() {
                       onClick={() => setTimeRange(t)}
                       className="px-3 py-1 rounded-md text-xs font-semibold transition-all"
                       style={{
-                        background:  timeRange === t ? "#ffffff"   : "transparent",
-                        color:       timeRange === t ? "#0f172a"   : "#64748b",
-                        border:      timeRange === t ? "1px solid #e2e8f0" : "1px solid transparent",
-                        boxShadow:   timeRange === t ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+                        background: timeRange === t ? "#ffffff" : "transparent",
+                        color:      timeRange === t ? "#0f172a" : "#64748b",
+                        border:     timeRange === t ? "1px solid #e2e8f0" : "1px solid transparent",
+                        boxShadow:  timeRange === t ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
                         cursor: "pointer",
                       }}
                     >
@@ -700,7 +435,6 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Filters */}
               <div className="flex flex-wrap gap-2">
                 <select
                   value={rateCountry}
@@ -708,7 +442,9 @@ export default function Dashboard() {
                   className="rounded-md px-2 py-1 text-xs font-medium border border-slate-200 bg-white text-slate-700 cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-500"
                 >
                   <option value="all">All countries</option>
-                  {ALL_RATE_COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                  {ALL_RATE_COUNTRIES.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
                 </select>
                 <select
                   value={rateCategory}
@@ -716,7 +452,9 @@ export default function Dashboard() {
                   className="rounded-md px-2 py-1 text-xs font-medium border border-slate-200 bg-white text-slate-700 cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-500"
                 >
                   <option value="all">All categories</option>
-                  {ALL_RATE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                  {ALL_RATE_CATEGORIES.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -724,7 +462,10 @@ export default function Dashboard() {
 
           <CardContent>
             <ResponsiveContainer width="100%" height={230}>
-              <LineChart data={tariffRateDataset[timeRange]} margin={{ top: 4, right: 8, left: -10, bottom: 0 }}>
+              <LineChart
+                data={tariffRateDataset[timeRange]}
+                margin={{ top: 4, right: 8, left: -10, bottom: 0 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                 <XAxis
                   dataKey="month"
@@ -772,23 +513,24 @@ export default function Dashboard() {
               </LineChart>
             </ResponsiveContainer>
 
-            {/* Legend — categories + active country label */}
             <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100 flex-wrap gap-2">
               <div className="flex flex-wrap gap-3">
                 {visibleCategories.map((cat) => (
                   <div key={cat} className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-sm" style={{ background: CATEGORY_COLORS[cat] }} />
+                    <div
+                      className="w-2.5 h-2.5 rounded-sm"
+                      style={{ background: CATEGORY_COLORS[cat] }}
+                    />
                     <span className="text-xs text-slate-500">{cat}</span>
                   </div>
                 ))}
               </div>
-              {/* Country label badge */}
               <span
                 className="text-xs font-semibold px-2 py-0.5 rounded-full border flex items-center gap-1"
                 style={{
-                  background: rateCountry === "all" ? "#f1f5f9" : "rgba(37,99,235,0.08)",
-                  color:      rateCountry === "all" ? "#64748b"  : "#1d4ed8",
-                  borderColor: rateCountry === "all" ? "#e2e8f0" : "rgba(37,99,235,0.25)",
+                  background:    rateCountry === "all" ? "#f1f5f9" : "rgba(37,99,235,0.08)",
+                  color:         rateCountry === "all" ? "#64748b" : "#1d4ed8",
+                  borderColor:   rateCountry === "all" ? "#e2e8f0" : "rgba(37,99,235,0.25)",
                 }}
               >
                 <svg width="8" height="8" viewBox="0 0 8 8" fill="none" style={{ flexShrink: 0 }}>
@@ -802,98 +544,82 @@ export default function Dashboard() {
 
         {/* Regulation Tracker */}
         <div className="lg:col-span-4 h-full">
-        <RegulationTracker />
+          <RegulationTracker />
         </div>
       </div>
 
-      {/* ── ROW 3: RECENT ACTIVITY ── */}
+      {/* Row 3: Recent Activity */}
       <Card className="border-slate-200 overflow-hidden pb-0">
-  <CardHeader className="pb-3">
-    <div className="flex items-center justify-between">
-      <div>
-        <CardTitle className="font-bold text-slate-900 pb-2">
-          Recent activity
-        </CardTitle>
-        <CardDescription className="text-sm">
-          Latest shipment classifications
-        </CardDescription>
-      </div>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="font-bold text-slate-900 pb-2">Recent activity</CardTitle>
+              <CardDescription className="text-sm">
+                Latest shipment classifications
+              </CardDescription>
+            </div>
+            <Button variant="outline" size="sm" className="text-xs">
+              View all →
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          <table className="w-full text-sm p-0">
+            <thead className="bg-slate-50 border-b">
+              <tr className="text-left text-slate-600">
+                <th className="py-3 px-4">ID</th>
+                <th className="py-3 px-4">Product</th>
+                <th className="py-3 px-4">AI Compliance</th>
+                <th className="py-3 px-4">Value</th>
+                <th className="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentActivity.map((item) => (
+                <tr
+                  key={item.id}
+                  className="border-b hover:bg-slate-50 transition cursor-pointer"
+                >
+                  <td className="py-3 px-4 font-mono text-[#3466E6] hover:underline">
+                    {item.id}
+                  </td>
+                  <td className="py-3 px-4 text-slate-700 max-w-[240px] truncate">
+                    {item.product}
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-green-500"
+                          style={{ width: `${item.compliance}%` }}
+                        />
+                      </div>
+                      <span className="font-medium text-slate-700">
+                        {item.compliance}%
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-4 font-semibold text-slate-900">
+                    RM {item.value.toLocaleString()}
+                  </td>
+                  <td className="py-3 px-4">
+                    <Badge className={getStatusColor(item.status)}>{item.status}</Badge>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </CardContent>
+      </Card>
 
-      <Button variant="outline" size="sm" className="text-xs">
-        View all →
-      </Button>
-    </div>
-  </CardHeader>
-
-  <CardContent className="p-0">
-    <table className="w-full text-sm p-0">
-      <thead className="bg-slate-50 border-b">
-        <tr className="text-left text-slate-600">
-          <th className="py-3 px-4">ID</th>
-          <th className="py-3 px-4">Product</th>
-          <th className="py-3 px-4">AI Compliance</th>
-          <th className="py-3 px-4">Value</th>
-          <th className="py-3 px-4">Status</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {recentActivity.map((item) => (
-          <tr
-            key={item.id}
-            className="border-b hover:bg-slate-50 transition cursor-pointer"
-          >
-            {/* ID */}
-            <td className="py-3 px-4 font-mono text-[#3466E6] hover:underline">
-              {item.id}
-            </td>
-
-            {/* PRODUCT */}
-            <td className="py-3 px-4 text-slate-700 max-w-[240px] truncate">
-              {item.product}
-            </td>
-
-            {/* COMPLIANCE BAR */}
-            <td className="py-3 px-4">
-              <div className="flex items-center gap-2">
-                <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-green-500"
-                    style={{ width: `${item.compliance}%` }}
-                  />
-                </div>
-                <span className="font-medium text-slate-700">
-                  {item.compliance}%
-                </span>
-              </div>
-            </td>
-
-            {/* VALUE */}
-            <td className="py-3 px-4 font-semibold text-slate-900">
-              RM {item.value.toLocaleString()}
-            </td>
-
-            {/* STATUS */}
-            <td className="py-3 px-4">
-              <Badge className={getStatusColor(item.status)}>
-                {item.status}
-              </Badge>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </CardContent>
-</Card>
-
-      {/* ── SYSTEM STATUS FOOTER ── */}
+      {/* System Status Footer */}
       <Card className="border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50">
         <CardContent className="pt-3 pb-3">
           <div className="grid grid-cols-3 gap-4">
             {[
               { label: "JKDM connected", sub: "Live sync active" },
-              { label: "MNTR feed", sub: "Updated just now" },
-              { label: "AI engine", sub: "Processing active" },
+              { label: "MNTR feed",      sub: "Updated just now" },
+              { label: "AI engine",      sub: "Processing active" },
             ].map(({ label, sub }) => (
               <div key={label} className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
@@ -906,7 +632,6 @@ export default function Dashboard() {
           </div>
         </CardContent>
       </Card>
-
     </div>
   );
 }
