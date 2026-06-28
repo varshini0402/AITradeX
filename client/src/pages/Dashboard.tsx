@@ -186,7 +186,8 @@ function RegulationTracker() {
       </div>
 
       {/* Notification Card Feed */}
-      <div className="divide-y divide-slate-100 flex-1 overflow-y-auto">
+      {/* Added max-h-[300px] (roughly fits 2 to 2.5 cards) and overflow-y-auto */}
+      <div className="divide-y divide-slate-100 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
         {updates.length === 0 ? (
           <div className="p-12 text-center flex flex-col items-center justify-center text-slate-400">
             <FolderOpen className="w-10 h-10 text-slate-300 mb-2" />
