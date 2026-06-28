@@ -29,7 +29,7 @@ const recommendations = [
     id: "JPN-1007",
     title: "Touch LCD Module",
     description: "Monitor display component classification",
-    confidence: 88,
+    confidence: 88.6,
     status: "Pending",
     attention: true,
   },
@@ -37,7 +37,7 @@ const recommendations = [
     id: "JPN-1001",
     title: "Industrial Temperature Sensor",
     description: "Thermal measurement device",
-    confidence: 92,
+    confidence: 92.5,
     status: "Approved",
     attention: false,
   },
@@ -45,7 +45,7 @@ const recommendations = [
     id: "JPN-1002",
     title: "PCB Assembly Module",
     description: "Electronics board assembly",
-    confidence: 95,
+    confidence: 94.1,
     status: "Approved",
     attention: false,
   },
@@ -340,9 +340,24 @@ export default function RecommendationsMain() {
             </td>
 
             {/* CONFIDENCE */}
-            <td className="py-3 px-4 text-center font-semibold">
-              {item.confidence}%
-            </td>
+           <td className="py-3 px-4">
+            <div className="flex items-center gap-2">
+              
+              <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-green-500"
+                  style={{
+                    width: `${item.confidence}%`,
+                  }}
+                />
+              </div>
+
+              <span className="font-medium text-slate-700">
+                {item.confidence}%
+              </span>
+
+            </div>
+          </td>
 
             {/* STATUS */}
             <td className="py-3 px-4 text-center">

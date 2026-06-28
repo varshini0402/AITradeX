@@ -77,7 +77,7 @@ export default function RecommendationsDetail() {
 
           <CardContent className="space-y-5">
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 pt-4">
               <FileText className={`w-5 h-5 ${blueIcon}`} />
               <h2 className="text-xl font-bold">
                 Technical Specifications

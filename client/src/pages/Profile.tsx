@@ -339,9 +339,9 @@ export default function Profile() {
           <CardTitle className="text-sm font-bold text-slate-700 uppercase tracking-wider">
             Account Settings
           </CardTitle>
-          <CardDescription className="text-slate-500 text-xs">
-            Manage system notifications, configurations, and general security settings
-          </CardDescription>
+          {/* <CardDescription className="text-slate-500">
+            Manage preferences and security
+          </CardDescription> */}
         </CardHeader>
 
         <CardContent className="p-6 space-y-4">
@@ -424,8 +424,24 @@ export default function Profile() {
         </CardContent>
       </Card>
 
-      {/* EXTRA BOTTOM SPACE BUFFER */}
-      <div className="h-15" />
+      {/* DANGER */}
+      {/* <Card className="border-red-200 bg-red-50">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-semibold text-red-700 uppercase">
+            Danger Zone
+          </CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <p className="text-sm text-red-700 mb-3">
+            Account deletion is permanent
+          </p>
+
+          <Button variant="outline" className="text-red-600 border-red-300">
+            Delete Account
+          </Button>
+        </CardContent>
+      </Card> */}
 
     </div>
   );
