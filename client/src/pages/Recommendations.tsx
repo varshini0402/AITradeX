@@ -311,7 +311,7 @@ export default function RecommendationsMain() {
           <th className="py-3 px-4">Description</th>
           <th className="py-3 px-4 text-center">Confidence</th>
           <th className="py-3 px-4 text-center">Status</th>
-          <th className="py-3 px-4 text-right">Action</th>
+          <th className="py-3 px-4 text-center">Action</th>
 
         </tr>
       </thead>
@@ -352,7 +352,7 @@ export default function RecommendationsMain() {
             </td>
 
             {/* ACTION */}
-            <td className="py-3 px-4 text-right text-slate-400">
+            <td className="py-3 px-4 text-center text-slate-400">
               →
             </td>
 
