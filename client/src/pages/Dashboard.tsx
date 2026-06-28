@@ -3,17 +3,29 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  TrendingUp, TrendingDown, AlertCircle, ExternalLink,
-  AlertTriangle, Info, ArrowRight, ArrowUpRight, CheckCircle,
-  FolderOpen, Scale
+  TrendingUp, TrendingDown, ExternalLink,
+  ArrowRight, ArrowUpRight, CheckCircle,
+  FolderOpen, Scale, BarChart3, Globe2,
 } from "lucide-react";
 import {
-  LineChart, Line,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  BarChart, Bar, ReferenceLine,
 } from "recharts";
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
-type Severity = "urgent" | "warning" | "info";
+interface ShipmentMetric {
+  shipmentId: string;
+  partNumber: string;
+  description: string;
+  countryOfOrigin: string;
+  htsCode: string;
+  declaredValue: number;
+  tariffRate: number;
+  estimatedDuty: number;
+  aiScore: number;
+  sapTarget: string;
+  status: "Approved" | "Pending Review";
+}
 
 interface RateChange {
   old: string;
@@ -132,10 +144,10 @@ const tariffRateDataset: Record<TimeRange, { month: string; Electronics: number;
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Electronics: "#f0b429",
-  Agriculture: "#2dd4bf",
-  Automotive:  "#60a5fa",
-  Textiles:    "#a78bfa",
+  Electronics: "#3b82f6",
+  Agriculture: "#10b981",
+  Automotive:  "#f59e0b",
+  Textiles:    "#8b5cf6",
 };
 
 const ALL_RATE_CATEGORIES = ["Electronics", "Agriculture", "Automotive", "Textiles"];
@@ -153,6 +165,34 @@ function getStatusColor(status: string) {
   return status === "Approved"
     ? "bg-green-100 text-green-700"
     : "bg-yellow-100 text-yellow-700";
+}
+
+// ─── CUSTOM TOOLTIP FOR BAR CHART ─────────────────────────────────────────────
+interface BarTooltipProps {
+  active?: boolean;
+  payload?: Array<{ dataKey: string; value: number; color: string }>;
+  label?: string;
+}
+
+function CustomBarTooltip({ active, payload, label }: BarTooltipProps) {
+  if (!active || !payload) return null;
+  return (
+    <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-lg">
+      <p className="text-xs font-bold text-slate-800 mb-2">{label} 2025</p>
+      {payload.map((entry) => (
+        <div key={entry.dataKey} className="flex items-center justify-between gap-4 py-0.5">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-sm" style={{ background: entry.color }} />
+            <span className="text-[11px] text-slate-600">{entry.dataKey}</span>
+          </div>
+          <span className="text-[11px] font-bold text-slate-800">{entry.value}%</span>
+        </div>
+      ))}
+      <div className="border-t border-slate-100 mt-2 pt-2">
+        <p className="text-[10px] text-slate-400">Effective tariff rate · Malaysia</p>
+      </div>
+    </div>
+  );
 }
 
 // ─── REGULATION TRACKER COMPONENT ────────────────────────────────────────────
@@ -186,7 +226,6 @@ function RegulationTracker() {
       </div>
 
       {/* Notification Card Feed */}
-      {/* Added max-h-[300px] (roughly fits 2 to 2.5 cards) and overflow-y-auto */}
       <div className="divide-y divide-slate-100 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
         {updates.length === 0 ? (
           <div className="p-12 text-center flex flex-col items-center justify-center text-slate-400">
@@ -283,7 +322,7 @@ function RegulationTracker() {
 
 // ─── MAIN DASHBOARD ──────────────────────────────────────────────────────────
 export default function Dashboard() {
-  const [selectedCountry, setSelectedCountry]  = useState("all");
+  const [selectedCountry, setSelectedCountry]   = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedUnit, setSelectedUnit]         = useState("all");
 
@@ -319,6 +358,19 @@ export default function Dashboard() {
   const hasData = filteredChartData.length > 0;
   const visibleCategories = rateCategory === "all" ? ALL_RATE_CATEGORIES : [rateCategory];
 
+  // ── Compute rate data + deltas for the bar chart ──
+  const rateData = tariffRateDataset[timeRange];
+  const rateDeltas = useMemo(() => {
+    if (rateData.length < 2) return {};
+    const first = rateData[0];
+    const last = rateData[rateData.length - 1];
+    const deltas: Record<string, number> = {};
+    ALL_RATE_CATEGORIES.forEach((cat) => {
+      deltas[cat] = (last[cat as keyof typeof last] as number) - (first[cat as keyof typeof first] as number);
+    });
+    return deltas;
+  }, [rateData]);
+
   return (
     <div className="space-y-4 px-2">
       {/* Header */}
@@ -340,8 +392,8 @@ export default function Dashboard() {
           <CardContent className="pb-3">
             <div className="flex items-end justify-between">
               <span className="text-2xl font-bold text-slate-900">148</span>
-              <div className="flex items-center gap-1 text-green-600 text-s">
-                <TrendingUp className="w-5 h-5" />
+              <div className="flex items-center gap-1 text-green-600 text-xs">
+                <TrendingUp className="w-3 h-3" />
                 <span>+12%</span>
               </div>
             </div>
@@ -359,7 +411,7 @@ export default function Dashboard() {
               <span className="text-2xl font-bold text-slate-900">5</span>
               <Badge
                 variant="outline"
-                className="bg-yellow-50 text-yellow-700 border-yellow-200 text-sm"
+                className="bg-yellow-50 text-yellow-700 border-yellow-200 text-xs"
               >
                 Action needed
               </Badge>
@@ -376,8 +428,8 @@ export default function Dashboard() {
           <CardContent className="pb-3">
             <div className="flex items-end justify-between">
               <span className="text-2xl font-bold text-slate-900">93.7%</span>
-              <div className="flex items-center gap-1 text-green-600 text-s">
-                <TrendingUp className="w-5 h-5" />
+              <div className="flex items-center gap-1 text-green-600 text-xs">
+                <TrendingUp className="w-3 h-3" />
                 <span>+2.1%</span>
               </div>
             </div>
@@ -393,8 +445,8 @@ export default function Dashboard() {
           <CardContent className="pb-3">
             <div className="flex items-end justify-between">
               <span className="text-2xl font-bold text-slate-900">RM 18.4K</span>
-              <div className="flex items-center gap-1 text-red-600 text-s">
-                <TrendingDown className="w-5 h-5" />
+              <div className="flex items-center gap-1 text-red-600 text-xs">
+                <TrendingDown className="w-3 h-3" />
                 <span>-3.2%</span>
               </div>
             </div>
@@ -404,18 +456,22 @@ export default function Dashboard() {
 
       {/* Row 2: Tariff Rate Chart + Regulation Tracker */}
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-4">
+
+        {/* ── Tariff Rate Analysis — Grouped Bar Chart ── */}
         <Card className="border-slate-200 h-full lg:col-span-6">
           <CardHeader className="pb-3">
             <div className="space-y-3">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <CardTitle className="font-bold pb-2 text-slate-900">
-                    Tariff rate analysis
+                  <CardTitle className="font-bold pb-2 text-slate-900 flex items-center gap-2">
+                    <BarChart3 className="w-4 h-4 text-blue-600" />
+                    Tariff Rate Analysis
                   </CardTitle>
                   <CardDescription className="text-sm mt-0.5">
-                    Effective tariff rates by product category &amp; origin (Malaysia)
+                    Effective tariff rates by product category — Grouped comparison
                   </CardDescription>
                 </div>
+                {/* Time range toggle */}
                 <div className="flex gap-0.5 rounded-lg p-1 shrink-0 bg-slate-100">
                   {(["6M", "1Y", "YTD"] as const).map((t) => (
                     <button
@@ -436,6 +492,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
+              {/* Filters */}
               <div className="flex flex-wrap gap-2">
                 <select
                   value={rateCountry}
@@ -462,12 +519,14 @@ export default function Dashboard() {
           </CardHeader>
 
           <CardContent>
-            <ResponsiveContainer width="100%" height={230}>
-              <LineChart
-                data={tariffRateDataset[timeRange]}
-                margin={{ top: 4, right: 8, left: -10, bottom: 0 }}
+            <ResponsiveContainer width="100%" height={260}>
+              <BarChart
+                data={rateData}
+                margin={{ top: 8, right: 12, left: -8, bottom: 0 }}
+                barCategoryGap="20%"
+                barGap={3}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                 <XAxis
                   dataKey="month"
                   stroke="#94a3b8"
@@ -479,65 +538,65 @@ export default function Dashboard() {
                   stroke="#94a3b8"
                   tick={{ fontSize: 11, fill: "#94a3b8" }}
                   tickFormatter={(v) => `${v}%`}
-                  domain={[0, 45]}
-                  ticks={[0, 10, 20, 30, 40]}
+                  domain={[0, 40]}
+                  ticks={[0, 10]}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip
-                  contentStyle={{
-                    background: "#ffffff",
-                    border: "1px solid #e2e8f0",
-                    borderRadius: "8px",
-                    fontSize: "12px",
-                    color: "#0f172a",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                  }}
-                  formatter={(value: number, name: string) => [`${value}%`, name]}
-                  labelFormatter={(label) =>
-                    rateCountry === "all"
-                      ? `${label} · All countries`
-                      : `${label} · ${rateCountry}`
-                  }
+                  content={<CustomBarTooltip />}
+                  cursor={{ fill: "rgba(241,245,249,0.5)" }}
+                />
+                <ReferenceLine
+                  y={20}
+                  stroke="#e2e8f0"
+                  strokeDasharray="4 4"
+                  label={{ value: "MFN Avg", position: "right", fontSize: 9, fill: "#94a3b8" }}
                 />
                 {visibleCategories.map((cat) => (
-                  <Line
+                  <Bar
                     key={cat}
-                    type="monotone"
                     dataKey={cat}
-                    stroke={CATEGORY_COLORS[cat]}
-                    strokeWidth={2.5}
-                    dot={{ r: 4, fill: CATEGORY_COLORS[cat], strokeWidth: 0 }}
-                    activeDot={{ r: 6, strokeWidth: 2, stroke: "#ffffff" }}
+                    fill={CATEGORY_COLORS[cat]}
+                    radius={[3, 3, 0, 0]}
+                    maxBarSize={28}
                   />
                 ))}
-              </LineChart>
+              </BarChart>
             </ResponsiveContainer>
 
+            {/* Legend + deltas */}
             <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100 flex-wrap gap-2">
               <div className="flex flex-wrap gap-3">
-                {visibleCategories.map((cat) => (
-                  <div key={cat} className="flex items-center gap-1.5">
-                    <div
-                      className="w-2.5 h-2.5 rounded-sm"
-                      style={{ background: CATEGORY_COLORS[cat] }}
-                    />
-                    <span className="text-xs text-slate-500">{cat}</span>
-                  </div>
-                ))}
+                {visibleCategories.map((cat) => {
+                  const delta = rateDeltas[cat];
+                  return (
+                    <div key={cat} className="flex items-center gap-1.5">
+                      <div
+                        className="w-2.5 h-2.5 rounded-sm"
+                        style={{ background: CATEGORY_COLORS[cat] }}
+                      />
+                      <span className="text-xs text-slate-500">{cat}</span>
+                      {delta !== undefined && (
+                        <span className={`text-[10px] font-bold ${delta > 0 ? "text-red-500" : "text-emerald-500"}`}>
+                          {delta > 0 ? "+" : ""}{delta.toFixed(1)}pp
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
+              {/* Country label badge */}
               <span
                 className="text-xs font-semibold px-2 py-0.5 rounded-full border flex items-center gap-1"
                 style={{
                   background:    rateCountry === "all" ? "#f1f5f9" : "rgba(37,99,235,0.08)",
-                  color:         rateCountry === "all" ? "#64748b" : "#1d4ed8",
+                  color:         rateCountry === "all" ? "#64748b"  : "#1d4ed8",
                   borderColor:   rateCountry === "all" ? "#e2e8f0" : "rgba(37,99,235,0.25)",
                 }}
               >
-                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" style={{ flexShrink: 0 }}>
-                  <circle cx="4" cy="4" r="3" fill={rateCountry === "all" ? "#94a3b8" : "#2563eb"} />
-                </svg>
-                {rateCountry === "all" ? "All countries" : rateCountry}
+                <Globe2 className="w-3 h-3" />
+                {rateCountry === "all" ? "All origins" : rateCountry}
               </span>
             </div>
           </CardContent>
@@ -591,8 +650,11 @@ export default function Dashboard() {
                     <div className="flex items-center gap-2">
                       <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-green-500"
-                          style={{ width: `${item.compliance}%` }}
+                          className="h-full rounded-full"
+                          style={{
+                            width: `${item.compliance}%`,
+                            background: item.compliance >= 95 ? "#10b981" : item.compliance >= 90 ? "#f59e0b" : "#ef4444",
+                          }}
                         />
                       </div>
                       <span className="font-medium text-slate-700">
